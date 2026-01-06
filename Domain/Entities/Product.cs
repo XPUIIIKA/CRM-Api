@@ -1,0 +1,31 @@
+using Domain.BaseEntities;
+
+namespace Domain.Entities;
+
+public class Product : BaseEntity
+{
+    public Guid CompanyId { get; private set; }
+    public Guid? CategoryId { get; private set; }
+
+    public string Name { get; private set; }
+    public decimal Price { get; private set; }
+
+    protected Product() { }
+
+    public Product(Guid companyId, string name, decimal price, Guid createdBy)
+    {
+        Id = Guid.NewGuid();
+        CompanyId = companyId;
+        Name = name;
+        Price = price;
+        CreatedBy = createdBy;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
+
+    public void ChangePrice(decimal price)
+    {
+        Price = price;
+        UpdatedAt = DateTime.UtcNow;
+    }
+}

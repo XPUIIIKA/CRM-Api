@@ -1,0 +1,57 @@
+# Rider
+.idea/
+*.sln.iml
+out/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.DotSettings.user
+
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.pdb
+*.exe
+*.dll
+*.cache
+*.log
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Rider caches
+.idea/
+.idea_modules/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/gradle.xml
+.idea/libraries/
+.idea/runConfigurations/
+.idea/jsLibraryMappings.xml
+
+# Rider project files
+*.iml
+.idea/*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# Test results
+TestResults/
+*.trx
