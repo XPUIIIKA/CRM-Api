@@ -7,6 +7,7 @@ public class Order : BaseEntity
     public Guid CompanyId { get; private set; }
     public Guid? ClientId { get; private set; }
     public Guid? CurrentStatusId { get; private set; }
+    public Guid CreatedBy { get; protected set; } 
 
     protected Order() { }
 
@@ -21,6 +22,7 @@ public class Order : BaseEntity
 
     public void AssignClient(Guid clientId)
     {
+        
         ClientId = clientId;
         UpdatedAt = DateTime.UtcNow;
     }

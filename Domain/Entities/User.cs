@@ -4,7 +4,7 @@ public class User : BaseEntities.BaseEntity
 {
     public Guid CompanyId { get; private set; }
     public Guid RoleId { get; private set; }
-
+    public Guid CreatedBy { get; protected set; }
     public string Email { get; private set; }
     public string FullName { get; private set; }
 

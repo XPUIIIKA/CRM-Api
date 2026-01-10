@@ -6,7 +6,7 @@ public class Product : BaseEntity
 {
     public Guid CompanyId { get; private set; }
     public Guid? CategoryId { get; private set; }
-
+    public Guid CreatedBy { get; protected set; }
     public string Name { get; private set; }
     public decimal Price { get; private set; }
 

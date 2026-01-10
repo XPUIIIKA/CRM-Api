@@ -3,6 +3,7 @@ namespace Domain.Entities;
 public class Company : BaseEntities.BaseEntity
 {
     public string Name { get; private set; }
+    public Guid CreatedBy { get; protected set; }
 
     protected Company() { }
 

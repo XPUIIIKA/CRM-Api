@@ -6,7 +6,7 @@ public class OrderStatusHistory : BaseEntity
 {
     public Guid OrderId { get; private set; }
     public Guid StatusId { get; private set; }
-
+    public Guid CreatedBy { get; protected set; }
     protected OrderStatusHistory() { }
 
     public OrderStatusHistory(Guid orderId, Guid statusId, Guid createdBy)

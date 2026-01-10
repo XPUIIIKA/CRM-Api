@@ -10,6 +10,7 @@ public class Client : BaseEntity
     public string Patronymic { get; private set; }
     public string Phone { get; private set; }
     public string Email { get; private set; }
+    public Guid CreatedBy { get; protected set; }
 
     protected Client() { }
 

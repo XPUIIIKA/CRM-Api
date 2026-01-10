@@ -6,6 +6,7 @@ public class Status : BaseEntity
 {
     public Guid CompanyId { get; private set; }
     public string Name { get; private set; }
+    public Guid CreatedBy { get; protected set; }
 
     protected Status() { }
 

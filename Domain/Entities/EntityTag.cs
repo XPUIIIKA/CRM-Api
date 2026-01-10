@@ -7,6 +7,7 @@ public class EntityTag : BaseEntity
     public Guid TagId { get; private set; }
     public Guid EntityId { get; private set; }
     public string EntityType { get; private set; }
+    public Guid CreatedBy { get; protected set; }
 
     protected EntityTag() { }
 
