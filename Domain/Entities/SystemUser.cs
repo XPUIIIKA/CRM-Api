@@ -4,16 +4,17 @@ namespace Domain.Entities;
 
 public class SystemUser : BaseEntity
 {
-    public string Email { get; private set; }
-    public bool IsSuperAdmin { get; private set; }
-
+    public string Email { get; private set; } = null!;
+    public string Login { get; private set; } = null!;
+    public string PasswordHash { get; private set; } = null!;
     protected SystemUser() { }
 
-    public SystemUser(string email, bool isSuperAdmin)
+    public SystemUser(string email, string login, string passwordHash)
     {
         Id = Guid.NewGuid();
+        Login = login;
         Email = email;
-        IsSuperAdmin = isSuperAdmin;
+        PasswordHash = passwordHash;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = CreatedAt;
     }
