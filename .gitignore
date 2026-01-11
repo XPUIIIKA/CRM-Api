@@ -55,3 +55,4 @@ Thumbs.db
 # Test results
 TestResults/
 *.trx
+conection.txt
