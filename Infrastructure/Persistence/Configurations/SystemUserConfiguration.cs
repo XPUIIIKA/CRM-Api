@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class SystemUserConfiguration : IEntityTypeConfiguration<SystemUser>
+public class SystemUserConfiguration : IEntityTypeConfiguration<SystemAdmin>
 {
-    public void Configure(EntityTypeBuilder<SystemUser> builder)
+    public void Configure(EntityTypeBuilder<SystemAdmin> builder)
     {
         builder.ToTable("system_users");
 

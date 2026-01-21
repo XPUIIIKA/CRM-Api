@@ -16,7 +16,7 @@ public class CrmDbContext : DbContext
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<EntityTag> EntityTags => Set<EntityTag>();
     public DbSet<Status> Statuses => Set<Status>();
-    public DbSet<SystemUser> SystemUsers => Set<SystemUser>();
+    public DbSet<SystemAdmin> SystemUsers => Set<SystemAdmin>();
     public DbSet<OrderStatusHistory> OrderStatusHistories => Set<OrderStatusHistory>();
 
     public CrmDbContext(DbContextOptions<CrmDbContext> options)

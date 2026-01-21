@@ -2,14 +2,14 @@ using Domain.BaseEntities;
 
 namespace Domain.Entities;
 
-public class SystemUser : BaseEntity
+public class SystemAdmin : BaseEntity
 {
     public string Email { get; private set; } = null!;
     public string Login { get; private set; } = null!;
     public string PasswordHash { get; private set; } = null!;
-    protected SystemUser() { }
+    protected SystemAdmin() { }
 
-    public SystemUser(string email, string login, string passwordHash)
+    public SystemAdmin(string email, string login, string passwordHash)
     {
         Id = Guid.NewGuid();
         Login = login;
