@@ -12,7 +12,7 @@ public class CrmDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Order> Orders => Set<Order>();
-    public DbSet<OrderProduct> OrderProducts => Set<OrderProduct>();
+    public DbSet<OrderItem> OrderItem => Set<OrderItem>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<EntityTag> EntityTags => Set<EntityTag>();
     public DbSet<Status> Statuses => Set<Status>();
@@ -27,5 +27,21 @@ public class CrmDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CrmDbContext).Assembly);
+        
+        modelBuilder.Entity<Order>(b =>
+        {
+            b.Navigation(x => x.Items)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            b.HasMany(x => x.Items)
+                .WithOne()
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<OrderItem>(b =>
+        {
+            b.Property(x => x.Price).HasPrecision(18, 2);
+        });
     }
 }

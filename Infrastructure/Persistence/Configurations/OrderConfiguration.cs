@@ -24,9 +24,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     }
 }
 
-public class OrderProductConfiguration : IEntityTypeConfiguration<OrderProduct>
+public class OrderProductConfiguration : IEntityTypeConfiguration<OrderItem>
 {
-    public void Configure(EntityTypeBuilder<OrderProduct> builder)
+    public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
         builder.ToTable("order_products");
 

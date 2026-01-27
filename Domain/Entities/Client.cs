@@ -4,12 +4,12 @@ namespace Domain.Entities;
 
 public class Client : BaseEntity
 {
-    public Guid CompanyId { get; private set; }
-    public string FirstName { get; private set; }
-    public string Surname { get; private set; }
-    public string Patronymic { get; private set; }
-    public string Phone { get; private set; }
-    public string Email { get; private set; }
+    public Guid CompanyId { get; set; }
+    public string FirstName { get; set; }
+    public string Surname { get; set; }
+    public string Patronymic { get; set; }
+    public string Phone { get; set; }
+    public string Email { get; set; }
     public Guid CreatedBy { get; protected set; }
 
     protected Client() { }

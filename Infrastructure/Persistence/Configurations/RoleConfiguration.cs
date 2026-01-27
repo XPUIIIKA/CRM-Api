@@ -1,3 +1,4 @@
+using Domain.Constants;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,5 +22,11 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(x => x.UpdatedAt)
             .IsRequired()
             .HasColumnType("timestamp with time zone");
+        
+        builder.HasData(
+            new Role { Id = RoleIds.CompanyOwner, Name = RoleNames.CompanyOwner },
+            new Role { Id = RoleIds.Manager, Name = RoleNames.Manager },
+            new Role { Id = RoleIds.Employee, Name = RoleNames.Employee }
+        );
     }
 }

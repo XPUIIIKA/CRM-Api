@@ -2,11 +2,11 @@ namespace Domain.Entities;
 
 public class Role : BaseEntities.BaseEntity
 {
-    public Guid CompanyId { get; private set; }
-    public string Name { get; private set; }
-    public Guid CreatedBy { get; protected set; }
+    public Guid CompanyId { get; set; }
+    public string Name { get; set; }
+    public Guid CreatedBy { get; set; }
 
-    protected Role() { }
+    public Role() { }
 
     public Role(Guid companyId, string name, Guid createdBy)
     {
