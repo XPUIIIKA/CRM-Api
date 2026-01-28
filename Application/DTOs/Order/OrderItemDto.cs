@@ -1,7 +1,8 @@
 namespace Application.DTOs.Order;
 
-public record OrderItemDto(
-    Guid ProductId,
-    int Quantity,
-    decimal Price
-);
+public record OrderItemDto
+{
+    public required Guid ProductId { get; init; }
+    public required int Quantity { get; init; }
+    public required decimal Price { get; init; }
+}

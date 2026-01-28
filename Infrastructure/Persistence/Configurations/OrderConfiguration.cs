@@ -21,6 +21,17 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.UpdatedAt)
             .IsRequired()
             .HasColumnType("timestamp with time zone");
+
+        builder.Navigation(x => x.Items)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasMany(x => x.Items)
+            .WithOne()
+            .HasForeignKey(x => x.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(x => x.CompanyId);
+        builder.HasIndex(x => x.ClientId);
     }
 }
 
@@ -30,6 +41,10 @@ public class OrderProductConfiguration : IEntityTypeConfiguration<OrderItem>
     {
         builder.ToTable("order_products");
 
+        builder.Property(x => x.Price)
+            .HasColumnType("numeric(18,2)")
+            .IsRequired();
+        
         builder.HasKey(x => new { x.OrderId, x.ProductId });
         builder.Property(x => x.OrderId).HasColumnType("uuid");
         builder.Property(x => x.ProductId).HasColumnType("uuid");

@@ -57,16 +57,16 @@ public class CompanyService(
 
         await context.SaveChangesAsync(ct);
 
-        return new CreateCompanyResult(
-            company.Id,
-            owner.Id,
-            plainPassword
-        );
+        return new CreateCompanyResult
+        {
+            CompanyId = company.Id,
+            OwnerUserId = owner.Id,
+            GeneratedPassword = plainPassword
+        };
     }
 
     public async Task<ErrorOr<bool>> ExistsAsync(Guid companyId, CancellationToken ct)
     {
-        // Если бизнес-логика требует, чтобы проверку мог делать только админ:
         if (userContext.UserId is null)
             return Error.Unauthorized();
 

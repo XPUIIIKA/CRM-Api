@@ -12,10 +12,11 @@ public class Product : BaseEntity
 
     protected Product() { }
 
-    public Product(Guid companyId, string name, decimal price, Guid createdBy)
+    public Product(Guid companyId, Guid categoryId, string name, decimal price, Guid createdBy)
     {
         Id = Guid.NewGuid();
         CompanyId = companyId;
+        CategoryId = categoryId;
         Name = name;
         Price = price;
         CreatedBy = createdBy;

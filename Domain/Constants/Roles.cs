@@ -2,6 +2,8 @@ namespace Domain.Constants;
 
 public static class RoleIds
 {
+    // Системный админ (полный доступ внутри срм)
+    public static readonly Guid SystemAdmin = Guid.Parse("a0b0c0d0-e0f0-0a0b-b060-0e0f0a0b0c0d");
     // Владелец компании (полный доступ внутри своей компании)
     public static readonly Guid CompanyOwner = Guid.Parse("a1b2c3d4-e5f6-4a5b-bc6d-7e8f9a0b1c2d");
 
@@ -14,6 +16,7 @@ public static class RoleIds
 
 public static class RoleNames
 {
+    public const string SystemAdmin = "SystemAdmin";
     public const string CompanyOwner = "CompanyOwner";
     public const string Manager = "Manager";
     public const string Employee = "Employee";

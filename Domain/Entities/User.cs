@@ -1,3 +1,5 @@
+using Domain.Constants;
+
 namespace Domain.Entities;
 
 public class User : BaseEntities.BaseEntity
