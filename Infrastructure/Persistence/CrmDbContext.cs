@@ -1,9 +1,10 @@
+using Application.Abstractions.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class CrmDbContext : DbContext
+public class CrmDbContext(DbContextOptions<CrmDbContext> options) : DbContext(options), ICrmDbContext
 {
     public DbSet<Company> Companies => Set<Company>();
     public DbSet<User> Users => Set<User>();
@@ -18,11 +19,6 @@ public class CrmDbContext : DbContext
     public DbSet<Status> Statuses => Set<Status>();
     public DbSet<SystemAdmin> SystemAdmins => Set<SystemAdmin>();
     public DbSet<OrderStatusHistory> OrderStatusHistories => Set<OrderStatusHistory>();
-
-    public CrmDbContext(DbContextOptions<CrmDbContext> options)
-        : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

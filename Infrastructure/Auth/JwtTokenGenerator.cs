@@ -6,7 +6,7 @@ using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Utils;
+namespace Infrastructure.Auth;
 
 public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
 {
@@ -38,7 +38,7 @@ public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
 
     private string CreateToken(IEnumerable<Claim> claims)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(

@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Application.Abstractions.Services.Utils;
 using Microsoft.AspNetCore.Http;
 
-namespace Infrastructure.Utils;
+namespace Infrastructure.Auth;
 
 public class CurrentUserContext(IHttpContextAccessor httpContextAccessor) : ICurrentUserContext
 {

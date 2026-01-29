@@ -12,7 +12,7 @@ public interface ICrmDbContext
     DbSet<Product> Products { get; }
     DbSet<Category> Categories { get; }
     DbSet<Order> Orders { get; }
-    DbSet<OrderItem> OrderItem { get; }
+    DbSet<OrderItem> OrderItems { get; }
     DbSet<Tag> Tags { get; }
     DbSet<EntityTag> EntityTags { get; }
     DbSet<Status> Statuses { get; }

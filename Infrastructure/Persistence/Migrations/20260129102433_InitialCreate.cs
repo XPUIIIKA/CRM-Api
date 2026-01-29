@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -80,24 +82,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "order_products",
-                columns: table => new
-                {
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    quantity = table.Column<int>(type: "integer", nullable: false),
-                    price = table.Column<decimal>(type: "numeric", nullable: false),
-                    created_by = table.Column<Guid>(type: "uuid", nullable: false),
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_order_products", x => new { x.order_id, x.product_id });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "order_status_histories",
                 columns: table => new
                 {
@@ -137,9 +121,9 @@ namespace Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     company_id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    created_by = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     price = table.Column<decimal>(type: "numeric", nullable: false),
+                    created_by = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -188,6 +172,7 @@ namespace Infrastructure.Migrations
                     email = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     login = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     password_hash = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
+                    is_root = table.Column<bool>(type: "boolean", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -231,6 +216,55 @@ namespace Infrastructure.Migrations
                     table.PrimaryKey("pk_users", x => x.id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "order_products",
+                columns: table => new
+                {
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_order_products", x => new { x.order_id, x.product_id });
+                    table.ForeignKey(
+                        name: "fk_order_products_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "roles",
+                columns: new[] { "id", "company_id", "created_at", "created_by", "name", "updated_at" },
+                values: new object[,]
+                {
+                    { new Guid("a1b2c3d4-e5f6-4a5b-bc6d-7e8f9a0b1c2d"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), "CompanyOwner", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("b2c3d4e5-f6a7-5b6c-cd7e-8f9a0b1c2d3e"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), "Manager", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("c3d4e5f6-a7b8-6c7d-de8f-9a0b1c2d3e4f"), new Guid("00000000-0000-0000-0000-000000000000"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000000"), "Employee", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_orders_client_id",
+                table: "orders",
+                column: "client_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_orders_company_id",
+                table: "orders",
+                column: "company_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_statuses_company_id_name",
+                table: "statuses",
+                columns: new[] { "company_id", "name" },
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "ix_system_users_email",
                 table: "system_users",
@@ -272,9 +306,6 @@ namespace Infrastructure.Migrations
                 name: "order_status_histories");
 
             migrationBuilder.DropTable(
-                name: "orders");
-
-            migrationBuilder.DropTable(
                 name: "products");
 
             migrationBuilder.DropTable(
@@ -291,6 +322,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "users");
+
+            migrationBuilder.DropTable(
+                name: "orders");
         }
     }
 }

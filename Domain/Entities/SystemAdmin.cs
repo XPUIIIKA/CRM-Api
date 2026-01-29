@@ -4,11 +4,11 @@ namespace Domain.Entities;
 
 public class SystemAdmin : BaseEntity
 {
-    public string Email { get; private set; } = null!;
-    public string Login { get; private set; } = null!;
-    public string PasswordHash { get; private set; } = null!;
-    public bool IsRoot { get; private set; }
-    protected SystemAdmin() { }
+    public string Email { get; set; } = null!;
+    public string Login { get; set; } = null!;
+    public string PasswordHash { get; set; } = null!;
+    public bool IsRoot { get; set; }
+    public SystemAdmin() { }
 
     public SystemAdmin(string email, string login, string passwordHash, bool isRoot = false)
     {

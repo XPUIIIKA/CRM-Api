@@ -4,7 +4,7 @@ using Application.Abstractions.Services.Utils;
 
 namespace Infrastructure.Utils;
 
-public class PasswordHasher : IPasswordGenerator
+public class PasswordGenerator : IPasswordGenerator
 {
     private const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private const string LowerCase = "abcdefghijklmnopqrstuvwxyz";

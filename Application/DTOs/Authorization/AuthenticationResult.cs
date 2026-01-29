@@ -10,9 +10,3 @@ public class AuthenticationResult
     public Guid? CompanyId { get; init; }
     public bool IsRoot { get; init; }
 }
-
-public class LoginRequest
-{
-    public required string Email { get; init; }
-    public required string Password { get; init; }
-}

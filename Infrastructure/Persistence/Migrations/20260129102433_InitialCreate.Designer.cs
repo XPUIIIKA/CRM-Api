@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CrmDbContext))]
-    [Migration("20260111205405_InitialCreate")]
+    [Migration("20260129102433_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -219,10 +219,16 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_orders");
 
+                    b.HasIndex("ClientId")
+                        .HasDatabaseName("ix_orders_client_id");
+
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("ix_orders_company_id");
+
                     b.ToTable("orders", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.OrderProduct", b =>
+            modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid")
@@ -236,16 +242,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid")
-                        .HasColumnName("created_by");
-
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
+                        .HasColumnType("numeric(18,2)")
                         .HasColumnName("price");
 
                     b.Property<int>("Quantity")
@@ -371,6 +373,35 @@ namespace Infrastructure.Migrations
                         .HasName("pk_roles");
 
                     b.ToTable("roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a1b2c3d4-e5f6-4a5b-bc6d-7e8f9a0b1c2d"),
+                            CompanyId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "CompanyOwner",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("b2c3d4e5-f6a7-5b6c-cd7e-8f9a0b1c2d3e"),
+                            CompanyId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "Manager",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = new Guid("c3d4e5f6-a7b8-6c7d-de8f-9a0b1c2d3e4f"),
+                            CompanyId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "Employee",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Status", b =>
@@ -405,10 +436,14 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_statuses");
 
+                    b.HasIndex("CompanyId", "Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_statuses_company_id_name");
+
                     b.ToTable("statuses", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.SystemUser", b =>
+            modelBuilder.Entity("Domain.Entities.SystemAdmin", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -424,6 +459,10 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("email");
+
+                    b.Property<bool>("IsRoot")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_root");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -543,6 +582,21 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("ix_users_company_id_email");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("Domain.Entities.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_products_orders_order_id");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
