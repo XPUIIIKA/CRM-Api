@@ -1,8 +1,9 @@
+using Domain.Abstractions;
 using Domain.BaseEntities;
 
 namespace Domain.Entities;
 
-public class Client : BaseEntity
+public class Client : BaseEntity, IHaveCompany
 {
     public Guid CompanyId { get; set; }
     public string FirstName { get; set; }

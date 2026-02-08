@@ -1,6 +1,9 @@
+using Domain.Abstractions;
+using Domain.BaseEntities;
+
 namespace Domain.Entities;
 
-public class Role : BaseEntities.BaseEntity
+public class Role : BaseEntity, IHaveCompany
 {
     public Guid CompanyId { get; set; }
     public string Name { get; set; }

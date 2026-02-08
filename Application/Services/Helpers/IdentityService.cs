@@ -15,6 +15,7 @@ public class IdentityService(
     public async Task<ErrorOr<AuthenticationResult>> LoginAsync(LoginRequest request, CancellationToken ct)
     {
         var systemAdmin = await context.SystemAdmins
+            .IgnoreQueryFilters() 
             .FirstOrDefaultAsync(x => x.Email == request.Email, ct);
 
         if (systemAdmin is not null)
@@ -35,6 +36,7 @@ public class IdentityService(
         }
 
         var user = await context.Users
+            .IgnoreQueryFilters() 
             .FirstOrDefaultAsync(x => x.Email == request.Email, ct);
 
         if (user is null || !passwordHasher.Verify(request.Password, user.PasswordHash))

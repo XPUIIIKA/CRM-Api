@@ -1,11 +1,12 @@
+using Domain.Abstractions;
 using Domain.BaseEntities;
 using Domain.Constants;
 
 namespace Domain.Entities;
 
-public class Order : BaseEntity
+public class Order : BaseEntity, IHaveCompany
 {
-    public Guid CompanyId { get; private set; }
+    public Guid CompanyId { get; set; }
     public Guid? ClientId { get; private set; }
     public Guid? CurrentStatusId { get; private set; }
     public Guid CreatedBy { get; protected set; } 

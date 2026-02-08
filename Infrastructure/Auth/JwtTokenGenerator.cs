@@ -16,7 +16,7 @@ public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
-            new("role_id", user.RoleId.ToString()),
+            new("role", user.RoleId.ToString()),
             new("company_id", user.CompanyId.ToString()),
             new("is_root", "false")
         };
@@ -29,7 +29,7 @@ public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
         {
             new(JwtRegisteredClaimNames.Sub, admin.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, admin.Email),
-            new(ClaimTypes.Role, "SystemAdmin"),
+            new("role", "SystemAdmin"),
             new("is_root", admin.IsRoot.ToString().ToLower())
         };
 
@@ -42,8 +42,8 @@ public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: config["Jwt:Issuer"],
-            audience: config["Jwt:Audience"],
+            issuer: config["JwtSettings:Issuer"],
+            audience: config["JwtSettings:Audience"],
             claims: claims,
             expires: DateTime.UtcNow.AddDays(7),
             signingCredentials: creds

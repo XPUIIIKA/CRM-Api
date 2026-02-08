@@ -9,7 +9,7 @@ public class CurrentUserContext(IHttpContextAccessor httpContextAccessor) : ICur
     private ClaimsPrincipal? User => httpContextAccessor.HttpContext?.User;
 
     public Guid? UserId => 
-        Guid.TryParse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value, out var id) ? id : null;
+        Guid.TryParse(User?.FindFirst("sub")?.Value, out var id) ? id : null;
 
     public Guid? CompanyId => 
         Guid.TryParse(User?.FindFirst("company_id")?.Value, out var id) ? id : null;

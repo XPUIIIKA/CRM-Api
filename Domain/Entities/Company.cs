@@ -1,6 +1,9 @@
+using Domain.Abstractions;
+using Domain.BaseEntities;
+
 namespace Domain.Entities;
 
-public class Company : BaseEntities.BaseEntity
+public class Company : BaseEntity
 {
     public string Name { get; private set; }
     public Guid CreatedBy { get; protected set; }

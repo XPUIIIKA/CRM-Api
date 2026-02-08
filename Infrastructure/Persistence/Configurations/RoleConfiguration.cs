@@ -22,11 +22,32 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(x => x.UpdatedAt)
             .IsRequired()
             .HasColumnType("timestamp with time zone");
-        
+
         builder.HasData(
-            new Role { Id = RoleIds.CompanyOwner, Name = RoleNames.CompanyOwner },
-            new Role { Id = RoleIds.Manager, Name = RoleNames.Manager },
-            new Role { Id = RoleIds.Employee, Name = RoleNames.Employee }
+            new Role
+            {
+                Id = RoleIds.CompanyOwner,
+                Name = RoleNames.CompanyOwner,
+                CompanyId = Guid.Empty,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            },
+            new Role
+            {
+                Id = RoleIds.Manager,
+                Name = RoleNames.Manager,
+                CompanyId = Guid.Empty,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            },
+            new Role
+            {
+                Id = RoleIds.Employee,
+                Name = RoleNames.Employee,
+                CompanyId = Guid.Empty,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            }
         );
     }
 }

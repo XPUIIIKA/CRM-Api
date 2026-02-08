@@ -1,10 +1,12 @@
+using Domain.Abstractions;
+using Domain.BaseEntities;
 using Domain.Constants;
 
 namespace Domain.Entities;
 
-public class User : BaseEntities.BaseEntity
+public class User : BaseEntity, IHaveCompany
 {
-    public Guid CompanyId { get; private set; }
+    public Guid CompanyId { get; set; }
     public Guid RoleId { get; private set; }
     public Guid CreatedBy { get; protected set; }
     public string Email { get; private set; }
