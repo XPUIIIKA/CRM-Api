@@ -10,6 +10,9 @@ public class Order : BaseEntity, IHaveCompany
     public Guid? ClientId { get; private set; }
     public Guid? CurrentStatusId { get; private set; }
     public Guid? AssignedManagerId { get; private set; }
+    public string DeliveryAddress { get; private set; } = string.Empty;
+    public string Notes { get; private set; } = string.Empty;
+    public string SalesChannel { get; private set; } = "Unknown";
     public Guid CreatedBy { get; protected set; } 
 
     private readonly List<OrderItem> _items = new();
@@ -30,6 +33,20 @@ public class Order : BaseEntity, IHaveCompany
     public void AssignClient(Guid clientId)
     {
         ClientId = clientId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void RemoveClient()
+    {
+        ClientId = null;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateMainInfo(string? deliveryAddress, string? notes, string? salesChannel = null)
+    {
+        DeliveryAddress = deliveryAddress?.Trim() ?? string.Empty;
+        Notes = notes?.Trim() ?? string.Empty;
+        SalesChannel = string.IsNullOrWhiteSpace(salesChannel) ? "Unknown" : salesChannel.Trim();
         UpdatedAt = DateTime.UtcNow;
     }
 

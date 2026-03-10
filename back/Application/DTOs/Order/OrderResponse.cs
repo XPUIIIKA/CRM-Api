@@ -5,6 +5,9 @@ public sealed record class OrderResponse
     public required Guid Id { get; init; }
     public Guid? ClientId { get; init; }
     public string? ClientName { get; init; }
+    public string? DeliveryAddress { get; init; }
+    public string? Notes { get; init; }
+    public string? SalesChannel { get; init; }
     public required Guid? CurrentStatusId { get; init; }
     public required decimal TotalAmount { get; init; }
     public required DateTime CreatedAt { get; init; }

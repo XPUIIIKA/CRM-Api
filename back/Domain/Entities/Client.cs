@@ -11,6 +11,7 @@ public class Client : BaseEntity, IHaveCompany
     public string Patronymic { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
     public Guid CreatedBy { get; protected set; }
 
     protected Client() { }
@@ -24,13 +25,20 @@ public class Client : BaseEntity, IHaveCompany
         UpdatedAt = CreatedAt;
     }
 
-    public void UpdatePersonalData(string firstName, string surname, string patronymic, string phone, string email)
+    public void UpdatePersonalData(
+        string firstName,
+        string surname,
+        string patronymic,
+        string phone,
+        string email,
+        string address)
     {
         FirstName = firstName;
         Surname = surname;
         Patronymic = patronymic;
         Phone = phone;
         Email = email;
+        Address = address;
         UpdatedAt = DateTime.UtcNow;
     }
 }

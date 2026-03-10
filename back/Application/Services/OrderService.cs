@@ -1,6 +1,7 @@
 using Application.Abstractions.Persistence;
 using Application.Abstractions.Services.Entities;
 using Application.Abstractions.Services.Utils;
+using Application.DTOs.Client;
 using Application.DTOs.Order;
 using Application.Services.Helpers;
 using Domain.Entities;
@@ -23,15 +24,16 @@ public sealed class OrderService(
 
         var (userId, companyId) = guardResult.Value;
 
-        if (request.ClientId.HasValue)
-        {
-            var clientExists = await context.Clients
-                .AnyAsync(c => c.Id == request.ClientId.Value && c.CompanyId == companyId, ct);
+        var resolvedClientId = await ResolveClientIdForCreateAsync(
+            request.ClientId,
+            request.Client,
+            userId,
+            companyId,
+            ct);
 
-            if (!clientExists)
-            {
-                return Error.NotFound("Client.NotFound", "Client was not found.");
-            }
+        if (resolvedClientId.IsError)
+        {
+            return resolvedClientId.Errors;
         }
 
         var items = request.Items ?? [];
@@ -50,7 +52,7 @@ public sealed class OrderService(
         {
             var existingProductIds = await context.Products
                 .AsNoTracking()
-                .Where(p => requestedProductIds.Contains(p.Id))
+                .Where(p => requestedProductIds.Contains(p.Id) && p.CompanyId == companyId)
                 .Select(p => p.Id)
                 .ToListAsync(ct);
 
@@ -61,10 +63,11 @@ public sealed class OrderService(
         }
 
         var order = new Order(createdBy: userId, companyId: companyId);
+        order.UpdateMainInfo(request.DeliveryAddress, request.Notes, request.SalesChannel);
 
-        if (request.ClientId.HasValue)
+        if (resolvedClientId.Value.HasValue)
         {
-            order.AssignClient(request.ClientId.Value);
+            order.AssignClient(resolvedClientId.Value.Value);
         }
 
         foreach (var item in items)
@@ -123,6 +126,9 @@ public sealed class OrderService(
                 ClientName = o.ClientId.HasValue && clientNames.TryGetValue(o.ClientId.Value, out var clientName)
                     ? clientName
                     : null,
+                DeliveryAddress = o.DeliveryAddress,
+                Notes = o.Notes,
+                SalesChannel = o.SalesChannel,
                 CurrentStatusId = o.CurrentStatusId,
                 CreatedAt = o.CreatedAt,
                 TotalAmount = o.Items.Sum(i => i.Price * i.Quantity),
@@ -137,6 +143,140 @@ public sealed class OrderService(
             .ToList();
 
         return response;
+    }
+
+    public async Task<ErrorOr<Updated>> UpdateAsync(Guid orderId, UpdateOrderRequest request, CancellationToken ct)
+    {
+        var guardResult = CurrentUserGuard.EnsureUserAndCompany(userContext);
+        if (guardResult.IsError)
+        {
+            return guardResult.Errors;
+        }
+
+        var (userId, companyId) = guardResult.Value;
+
+        if (request.ClientId.HasValue && request.Client is not null)
+        {
+            return Error.Validation("Order.Client.Invalid", "Specify either clientId or client object, not both.");
+        }
+
+        var order = await context.Orders
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.CompanyId == companyId, ct);
+
+        if (order is null)
+        {
+            return Error.NotFound("Order.NotFound", "Order was not found.");
+        }
+
+        if (request.ClientId.HasValue)
+        {
+            var clientExists = await context.Clients
+                .AnyAsync(c => c.Id == request.ClientId.Value && c.CompanyId == companyId, ct);
+
+            if (!clientExists)
+            {
+                return Error.NotFound("Client.NotFound", "Client was not found.");
+            }
+
+            order.AssignClient(request.ClientId.Value);
+        }
+        else if (request.Client is not null)
+        {
+            if (order.ClientId.HasValue)
+            {
+                var existingClient = await context.Clients
+                    .FirstOrDefaultAsync(c => c.Id == order.ClientId.Value && c.CompanyId == companyId, ct);
+
+                if (existingClient is null)
+                {
+                    return Error.NotFound("Client.NotFound", "Client was not found.");
+                }
+
+                var normalizedEmail = NormalizeEmail(request.Client.Email);
+                if (!string.IsNullOrWhiteSpace(normalizedEmail) && !InputValidation.IsValidEmail(normalizedEmail))
+                {
+                    return Error.Validation("Client.Email.Invalid", "Invalid email format.");
+                }
+
+                if (!InputValidation.IsValidPhone(request.Client.Phone))
+                {
+                    return Error.Validation("Client.Phone.Invalid", "Invalid phone format.");
+                }
+
+                if (!string.IsNullOrWhiteSpace(normalizedEmail))
+                {
+                    var duplicateEmailExists = await context.Clients.AnyAsync(
+                        c => c.CompanyId == companyId &&
+                             c.Id != existingClient.Id &&
+                             c.Email.ToLower() == normalizedEmail.ToLower(),
+                        ct);
+
+                    if (duplicateEmailExists)
+                    {
+                        return Error.Conflict("Client.EmailExists", "Client with this email already exists.");
+                    }
+                }
+
+                existingClient.UpdatePersonalData(
+                    firstName: request.Client.FirstName.Trim(),
+                    surname: request.Client.Surname.Trim(),
+                    patronymic: request.Client.Patronymic.Trim(),
+                    phone: request.Client.Phone.Trim(),
+                    email: normalizedEmail,
+                    address: request.Client.Address.Trim());
+            }
+            else
+            {
+                var createdClientId = await CreateClientAsync(request.Client, userId, companyId, ct);
+                if (createdClientId.IsError)
+                {
+                    return createdClientId.Errors;
+                }
+
+                order.AssignClient(createdClientId.Value);
+            }
+        }
+
+        order.UpdateMainInfo(
+            request.DeliveryAddress ?? order.DeliveryAddress,
+            request.Notes ?? order.Notes,
+            request.SalesChannel ?? order.SalesChannel);
+
+        await context.SaveChangesAsync(ct);
+        return Result.Updated;
+    }
+
+    public async Task<ErrorOr<Deleted>> DeleteAsync(Guid orderId, CancellationToken ct)
+    {
+        var guardResult = CurrentUserGuard.EnsureUserAndCompany(userContext);
+        if (guardResult.IsError)
+        {
+            return guardResult.Errors;
+        }
+
+        var (_, companyId) = guardResult.Value;
+
+        var order = await context.Orders
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.CompanyId == companyId, ct);
+
+        if (order is null)
+        {
+            return Error.NotFound("Order.NotFound", "Order was not found.");
+        }
+
+        var orderHistory = await context.OrderStatusHistories
+            .Where(h => h.OrderId == orderId && h.CompanyId == companyId)
+            .ToListAsync(ct);
+
+        if (orderHistory.Count > 0)
+        {
+            context.OrderStatusHistories.RemoveRange(orderHistory);
+        }
+
+        context.Orders.Remove(order);
+        await context.SaveChangesAsync(ct);
+
+        return Result.Deleted;
     }
 
     public async Task<ErrorOr<Updated>> ChangeStatusAsync(Guid orderId, Guid statusId, CancellationToken ct)
@@ -291,4 +431,92 @@ public sealed class OrderService(
         await context.SaveChangesAsync(ct);
         return Result.Updated;
     }
+
+    private async Task<ErrorOr<Guid?>> ResolveClientIdForCreateAsync(
+        Guid? clientId,
+        CreateClientRequest? client,
+        Guid userId,
+        Guid companyId,
+        CancellationToken ct)
+    {
+        if (clientId.HasValue && client is not null)
+        {
+            return Error.Validation("Order.Client.Invalid", "Specify either clientId or client object, not both.");
+        }
+
+        if (clientId.HasValue)
+        {
+            var clientExists = await context.Clients
+                .AnyAsync(c => c.Id == clientId.Value && c.CompanyId == companyId, ct);
+
+            if (!clientExists)
+            {
+                return Error.NotFound("Client.NotFound", "Client was not found.");
+            }
+
+            return clientId;
+        }
+
+        if (client is null)
+        {
+            return (Guid?)null;
+        }
+
+        var createdClientId = await CreateClientAsync(client, userId, companyId, ct);
+        if (createdClientId.IsError)
+        {
+            return createdClientId.Errors;
+        }
+
+        return createdClientId.Value;
+    }
+
+    private async Task<ErrorOr<Guid>> CreateClientAsync(
+        CreateClientRequest request,
+        Guid userId,
+        Guid companyId,
+        CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(request.FirstName))
+        {
+            return Error.Validation("Client.FirstName.Empty", "Client first name cannot be empty.");
+        }
+
+        var normalizedEmail = NormalizeEmail(request.Email);
+        if (!string.IsNullOrWhiteSpace(normalizedEmail) && !InputValidation.IsValidEmail(normalizedEmail))
+        {
+            return Error.Validation("Client.Email.Invalid", "Invalid email format.");
+        }
+
+        if (!InputValidation.IsValidPhone(request.Phone))
+        {
+            return Error.Validation("Client.Phone.Invalid", "Invalid phone format.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(normalizedEmail))
+        {
+            var emailExists = await context.Clients.AnyAsync(
+                x => x.CompanyId == companyId && x.Email.ToLower() == normalizedEmail.ToLower(),
+                ct);
+
+            if (emailExists)
+            {
+                return Error.Conflict("Client.EmailExists", "Client with this email already exists.");
+            }
+        }
+
+        var client = new Client(companyId: companyId, createdBy: userId);
+        client.UpdatePersonalData(
+            firstName: request.FirstName.Trim(),
+            surname: request.Surname.Trim(),
+            patronymic: request.Patronymic.Trim(),
+            phone: request.Phone.Trim(),
+            email: normalizedEmail,
+            address: request.Address.Trim());
+
+        context.Clients.Add(client);
+        return client.Id;
+    }
+
+    private static string NormalizeEmail(string email) => email?.Trim() ?? string.Empty;
 }

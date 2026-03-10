@@ -26,6 +26,13 @@ public class UsersController(IUserService userService) : ControllerBase
         return result.ToActionResult();
     }
 
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request, CancellationToken ct)
+    {
+        var result = await userService.UpdateAsync(id, request, ct);
+        return result.ToActionResult();
+    }
+
     [HttpPatch("{id:guid}/role")]
     [HasPermission(Permission.ManageRoles)]
     public async Task<IActionResult> ChangeRole(Guid id, [FromBody] Guid newRoleId, CancellationToken ct)

@@ -27,6 +27,22 @@ public class OrdersController(IOrderService orderService) : ControllerBase
         return result.ToActionResult();
     }
 
+    [HttpPut("{id:guid}")]
+    [HasPermission(Permission.ManageOrders)]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateOrderRequest request, CancellationToken ct)
+    {
+        var result = await orderService.UpdateAsync(id, request, ct);
+        return result.ToActionResult();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [HasPermission(Permission.ManageOrders)]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        var result = await orderService.DeleteAsync(id, ct);
+        return result.ToActionResult();
+    }
+
     [HttpPatch("{id:guid}/status")]
     [HasPermission(Permission.ManageOrders)]
     public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] UpdateOrderStatusRequest request, CancellationToken ct)

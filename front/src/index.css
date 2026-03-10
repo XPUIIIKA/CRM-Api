@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Comfortaa", sans-serif;
+  
+  /* Наши фирменные цвета из Figma */
+  --color-falcon-dark: #3D5F3E;    /* Темно-зеленый (Шапка, фон логина, кнопки) */
+  --color-falcon-accent: #98A55D;  /* Зелено-желтый (Сайдбар) */
+  --color-falcon-light: #D4E3C6;   /* Светло-зеленый (Инпуты) */
+}
+
+body {
+  font-family: "Comfortaa", sans-serif;
+}

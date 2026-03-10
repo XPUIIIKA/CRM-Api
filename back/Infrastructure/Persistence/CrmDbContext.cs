@@ -26,6 +26,8 @@ public class CrmDbContext(DbContextOptions<CrmDbContext> options, ICurrentUserCo
     public DbSet<Status> Statuses => Set<Status>();
     public DbSet<SystemAdmin> SystemAdmins => Set<SystemAdmin>();
     public DbSet<OrderStatusHistory> OrderStatusHistories => Set<OrderStatusHistory>();
+    public DbSet<Dialog> Dialogs => Set<Dialog>();
+    public DbSet<Message> Messages => Set<Message>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

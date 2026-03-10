@@ -40,14 +40,25 @@ public sealed class UserService(
             return Error.Validation("User.FullName.Empty", "Full name cannot be empty.");
         }
 
+        if (!InputValidation.IsValidPhone(request.PhoneNumber))
+        {
+            return Error.Validation("User.Phone.Invalid", "Invalid phone format.");
+        }
+
         var normalizedEmail = request.Email.Trim();
+        if (!InputValidation.IsValidEmail(normalizedEmail))
+        {
+            return Error.Validation("User.Email.Invalid", "Invalid email format.");
+        }
+
+        var normalizedPhone = request.PhoneNumber.Trim();
 
         var userEmailExists = await context.Users
             .IgnoreQueryFilters()
-            .AnyAsync(u => u.Email == normalizedEmail, ct);
+            .AnyAsync(u => u.Email.ToLower() == normalizedEmail.ToLower(), ct);
 
         var adminEmailExists = await context.SystemAdmins
-            .AnyAsync(a => a.Email == normalizedEmail, ct);
+            .AnyAsync(a => a.Email.ToLower() == normalizedEmail.ToLower(), ct);
 
         if (userEmailExists || adminEmailExists)
         {
@@ -74,6 +85,7 @@ public sealed class UserService(
             email: normalizedEmail,
             passwordHash: passwordHasher.Hash(request.Password),
             fullName: request.FullName.Trim(),
+            phoneNumber: normalizedPhone,
             createdBy: userId,
             companyId: companyId);
 
@@ -81,6 +93,97 @@ public sealed class UserService(
         await context.SaveChangesAsync(ct);
 
         return user.Id;
+    }
+
+    public async Task<ErrorOr<Updated>> UpdateAsync(Guid userId, UpdateUserRequest request, CancellationToken ct)
+    {
+        var guardResult = CurrentUserGuard.EnsureUserAndCompany(userContext);
+        if (guardResult.IsError)
+        {
+            return guardResult.Errors;
+        }
+
+        var (currentUserId, companyId) = guardResult.Value;
+
+        var user = await context.Users
+            .FirstOrDefaultAsync(u => u.Id == userId && u.CompanyId == companyId, ct);
+
+        if (user is null)
+        {
+            return Error.NotFound("User.NotFound", "User was not found.");
+        }
+
+        var isSelfUpdate = currentUserId == userId;
+        if (!isSelfUpdate && !userContext.Permissions.Contains(Permission.ManageUsers))
+        {
+            return Error.Forbidden("Auth.Forbidden", "Access denied.");
+        }
+
+        var hasAnyFieldToUpdate =
+            !string.IsNullOrWhiteSpace(request.FullName) ||
+            !string.IsNullOrWhiteSpace(request.Email) ||
+            !string.IsNullOrWhiteSpace(request.PhoneNumber) ||
+            !string.IsNullOrWhiteSpace(request.Password);
+
+        if (!hasAnyFieldToUpdate)
+        {
+            return Error.Validation("User.Update.Empty", "No fields provided for update.");
+        }
+
+        var fullName = string.IsNullOrWhiteSpace(request.FullName)
+            ? user.FullName
+            : request.FullName.Trim();
+        var email = string.IsNullOrWhiteSpace(request.Email)
+            ? user.Email
+            : request.Email.Trim();
+        var phoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber)
+            ? user.PhoneNumber
+            : request.PhoneNumber.Trim();
+
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            return Error.Validation("User.FullName.Empty", "Full name cannot be empty.");
+        }
+
+        if (!InputValidation.IsValidEmail(email))
+        {
+            return Error.Validation("User.Email.Invalid", "Invalid email format.");
+        }
+
+        if (!InputValidation.IsValidPhone(phoneNumber))
+        {
+            return Error.Validation("User.Phone.Invalid", "Invalid phone format.");
+        }
+
+        if (!email.Equals(user.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            var userEmailExists = await context.Users
+                .IgnoreQueryFilters()
+                .AnyAsync(u => u.Id != userId && u.Email.ToLower() == email.ToLower(), ct);
+
+            var adminEmailExists = await context.SystemAdmins
+                .AnyAsync(a => a.Email.ToLower() == email.ToLower(), ct);
+
+            if (userEmailExists || adminEmailExists)
+            {
+                return Error.Conflict("User.DuplicateEmail", "Email is already used.");
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Password))
+        {
+            if (request.Password.Trim().Length < 8)
+            {
+                return Error.Validation("User.Password.Weak", "Password must contain at least 8 characters.");
+            }
+
+            user.ChangePassword(passwordHasher.Hash(request.Password.Trim()));
+        }
+
+        user.UpdateProfile(fullName, email, phoneNumber);
+        await context.SaveChangesAsync(ct);
+
+        return Result.Updated;
     }
 
     public async Task<ErrorOr<Updated>> ChangeRoleAsync(Guid userId, Guid newRoleId, CancellationToken ct)
@@ -187,13 +290,14 @@ public sealed class UserService(
 
         var users = await context.Users
             .Include(u => u.Role)
-            .Where(u => u.CompanyId == companyId)
+            .Where(u => u.CompanyId == companyId && u.IsActive)
             .AsNoTracking()
             .Select(u => new UserResponse
             {
                 Id = u.Id,
                 Email = u.Email,
                 FullName = u.FullName,
+                PhoneNumber = u.PhoneNumber,
                 RoleId = u.RoleId,
                 RoleName = u.Role.Name,
                 AccessLevel = u.Role.AccessLevel,

@@ -20,4 +20,10 @@ public class Category : BaseEntity, IHaveCompany
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = CreatedAt;
     }
+
+    public void Rename(string name)
+    {
+        Name = name;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

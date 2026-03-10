@@ -6,4 +6,5 @@ namespace Application.Abstractions.Services.Utils;
 public interface IIdentityService
 {
     Task<ErrorOr<AuthenticationResult>> LoginAsync(LoginRequest request, CancellationToken ct);
+    Task<ErrorOr<CurrentUserProfileResponse>> GetCurrentUserProfileAsync(CancellationToken ct);
 }

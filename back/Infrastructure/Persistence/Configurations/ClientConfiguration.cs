@@ -29,6 +29,9 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(x => x.Email)
             .HasMaxLength(255);
 
+        builder.Property(x => x.Address)
+            .HasMaxLength(500);
+
         builder.Property(x => x.CompanyId)
             .IsRequired()
             .HasColumnType("uuid");
@@ -46,7 +49,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             .HasColumnType("timestamp with time zone");
 
         builder.HasIndex(x => new { x.CompanyId, x.Email })
-            .HasFilter("\"email\" IS NOT NULL")
+            .HasFilter("\"email\" IS NOT NULL AND \"email\" <> ''")
             .IsUnique();
     }
 }

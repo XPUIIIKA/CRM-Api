@@ -68,6 +68,12 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("address");
+
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid")
                         .HasColumnName("company_id");
@@ -120,7 +126,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("CompanyId", "Email")
                         .IsUnique()
                         .HasDatabaseName("ix_clients_company_id_email")
-                        .HasFilter("\"email\" IS NOT NULL");
+                        .HasFilter("\"email\" IS NOT NULL AND \"email\" <> ''");
 
                     b.ToTable("clients", (string)null);
                 });
@@ -161,6 +167,38 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_companies_name");
 
                     b.ToTable("companies", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Dialog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_dialogs");
+
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("ix_dialogs_company_id");
+
+                    b.ToTable("dialogs", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.EntityTag", b =>
@@ -212,6 +250,62 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("entity_tags", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("DialogId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("dialog_id");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_read");
+
+                    b.Property<Guid>("ReceiverUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("receiver_user_id");
+
+                    b.Property<Guid>("SenderUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sender_user_id");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_messages");
+
+                    b.HasIndex("CompanyId")
+                        .HasDatabaseName("ix_messages_company_id");
+
+                    b.HasIndex("DialogId", "CreatedAt")
+                        .HasDatabaseName("ix_messages_dialog_id_created_at");
+
+                    b.HasIndex("ReceiverUserId", "IsRead")
+                        .HasDatabaseName("ix_messages_receiver_user_id_is_read");
+
+                    b.ToTable("messages", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -242,6 +336,24 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<Guid?>("CurrentStatusId")
                         .HasColumnType("uuid")
                         .HasColumnName("current_status_id");
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("delivery_address");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("SalesChannel")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("sales_channel");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -699,6 +811,12 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("character varying(512)")
                         .HasColumnName("password_hash");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("phone_number");
+
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid")
                         .HasColumnName("role_id");
@@ -718,6 +836,16 @@ namespace Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_users_company_id_email");
 
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Message", b =>
+                {
+                    b.HasOne("Domain.Entities.Dialog", null)
+                        .WithMany()
+                        .HasForeignKey("DialogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_messages_dialogs_dialog_id");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>

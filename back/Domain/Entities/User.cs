@@ -12,6 +12,7 @@ public class User : BaseEntity, IHaveCompany
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
     public string FullName { get; private set; } = string.Empty;
+    public string PhoneNumber { get; private set; } = string.Empty;
     public bool IsActive { get; private set; } = true;
     public virtual Role Role { get; private set; } = null!;
 
@@ -22,6 +23,7 @@ public class User : BaseEntity, IHaveCompany
         string email,
         string passwordHash,
         string fullName,
+        string phoneNumber,
         Guid createdBy,
         Guid companyId = default)
     {
@@ -31,6 +33,7 @@ public class User : BaseEntity, IHaveCompany
         RoleId = roleId;
         Email = email;
         FullName = fullName;
+        PhoneNumber = phoneNumber;
         CreatedBy = createdBy;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = CreatedAt;
@@ -45,6 +48,20 @@ public class User : BaseEntity, IHaveCompany
     public void ChangeRole(Guid newRoleId)
     {
         RoleId = newRoleId;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateProfile(string fullName, string email, string phoneNumber)
+    {
+        FullName = fullName;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ChangePassword(string passwordHash)
+    {
+        PasswordHash = passwordHash;
         UpdatedAt = DateTime.UtcNow;
     }
 }

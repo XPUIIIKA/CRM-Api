@@ -62,6 +62,7 @@ public class CompanyService(
             fullName: request.OwnerFullName.Trim(),
             email: normalizedOwnerEmail,
             passwordHash: passwordHasher.Hash(plainPassword),
+            phoneNumber: string.Empty,
             createdBy: userContext.UserId.Value,
             companyId: company.Id);
 

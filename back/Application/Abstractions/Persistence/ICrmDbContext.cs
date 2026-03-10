@@ -18,5 +18,7 @@ public interface ICrmDbContext
     DbSet<Status> Statuses { get; }
     DbSet<SystemAdmin> SystemAdmins { get; }
     DbSet<OrderStatusHistory> OrderStatusHistories { get; }
+    DbSet<Dialog> Dialogs { get; }
+    DbSet<Message> Messages { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

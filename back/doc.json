@@ -1,0 +1,1892 @@
+﻿{
+    "openapi":  "3.0.4",
+    "info":  {
+                 "title":  "CRM API",
+                 "version":  "v1"
+             },
+    "paths":  {
+                  "/time":  {
+                                "get":  {
+                                            "tags":  [
+                                                         "Api"
+                                                     ],
+                                            "responses":  {
+                                                              "200":  {
+                                                                          "description":  "OK",
+                                                                          "content":  {
+                                                                                          "text/plain":  {
+                                                                                                             "schema":  {
+                                                                                                                            "type":  "string"
+                                                                                                                        }
+                                                                                                         }
+                                                                                      }
+                                                                      }
+                                                          }
+                                        }
+                            },
+                  "/api/auth/login":  {
+                                          "post":  {
+                                                       "tags":  [
+                                                                    "Auth"
+                                                                ],
+                                                       "requestBody":  {
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/LoginRequest"
+                                                                                                                               }
+                                                                                                                },
+                                                                                           "text/json":  {
+                                                                                                             "schema":  {
+                                                                                                                            "$ref":  "#/components/schemas/LoginRequest"
+                                                                                                                        }
+                                                                                                         },
+                                                                                           "application/*+json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/LoginRequest"
+                                                                                                                                 }
+                                                                                                                  }
+                                                                                       }
+                                                                       },
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "OK"
+                                                                                 }
+                                                                     }
+                                                   }
+                                      },
+                  "/api/auth/me":  {
+                                       "get":  {
+                                                   "tags":  [
+                                                                "Auth"
+                                                            ],
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               },
+                                       "put":  {
+                                                   "tags":  [
+                                                                "Auth"
+                                                            ],
+                                                   "requestBody":  {
+                                                                       "content":  {
+                                                                                       "application/json":  {
+                                                                                                                "schema":  {
+                                                                                                                               "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                           }
+                                                                                                            },
+                                                                                       "text/json":  {
+                                                                                                         "schema":  {
+                                                                                                                        "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                    }
+                                                                                                     },
+                                                                                       "application/*+json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                             }
+                                                                                                              }
+                                                                                   }
+                                                                   },
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               }
+                                   },
+                  "/api/auth/me/full":  {
+                                            "get":  {
+                                                        "tags":  [
+                                                                     "Auth"
+                                                                 ],
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    }
+                                        },
+                  "/api/category":  {
+                                        "post":  {
+                                                     "tags":  [
+                                                                  "Categories"
+                                                              ],
+                                                     "requestBody":  {
+                                                                         "content":  {
+                                                                                         "application/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/CreateCategoryRequest"
+                                                                                                                             }
+                                                                                                              },
+                                                                                         "text/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/CreateCategoryRequest"
+                                                                                                                      }
+                                                                                                       },
+                                                                                         "application/*+json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/CreateCategoryRequest"
+                                                                                                                               }
+                                                                                                                }
+                                                                                     }
+                                                                     },
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "OK"
+                                                                               }
+                                                                   }
+                                                 },
+                                        "get":  {
+                                                    "tags":  [
+                                                                 "Categories"
+                                                             ],
+                                                    "responses":  {
+                                                                      "200":  {
+                                                                                  "description":  "OK"
+                                                                              }
+                                                                  }
+                                                }
+                                    },
+                  "/api/category/{id}":  {
+                                             "put":  {
+                                                         "tags":  [
+                                                                      "Categories"
+                                                                  ],
+                                                         "parameters":  [
+                                                                            {
+                                                                                "name":  "id",
+                                                                                "in":  "path",
+                                                                                "required":  true,
+                                                                                "schema":  {
+                                                                                               "type":  "string",
+                                                                                               "format":  "uuid"
+                                                                                           }
+                                                                            }
+                                                                        ],
+                                                         "requestBody":  {
+                                                                             "content":  {
+                                                                                             "application/json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/UpdateCategoryRequest"
+                                                                                                                                 }
+                                                                                                                  },
+                                                                                             "text/json":  {
+                                                                                                               "schema":  {
+                                                                                                                              "$ref":  "#/components/schemas/UpdateCategoryRequest"
+                                                                                                                          }
+                                                                                                           },
+                                                                                             "application/*+json":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "$ref":  "#/components/schemas/UpdateCategoryRequest"
+                                                                                                                                   }
+                                                                                                                    }
+                                                                                         }
+                                                                         },
+                                                         "responses":  {
+                                                                           "200":  {
+                                                                                       "description":  "OK"
+                                                                                   }
+                                                                       }
+                                                     },
+                                             "delete":  {
+                                                            "tags":  [
+                                                                         "Categories"
+                                                                     ],
+                                                            "parameters":  [
+                                                                               {
+                                                                                   "name":  "id",
+                                                                                   "in":  "path",
+                                                                                   "required":  true,
+                                                                                   "schema":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "uuid"
+                                                                                              }
+                                                                               }
+                                                                           ],
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                         },
+                  "/api/clients":  {
+                                       "get":  {
+                                                   "tags":  [
+                                                                "Clients"
+                                                            ],
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               },
+                                       "post":  {
+                                                    "tags":  [
+                                                                 "Clients"
+                                                             ],
+                                                    "requestBody":  {
+                                                                        "content":  {
+                                                                                        "application/json":  {
+                                                                                                                 "schema":  {
+                                                                                                                                "$ref":  "#/components/schemas/CreateClientRequest"
+                                                                                                                            }
+                                                                                                             },
+                                                                                        "text/json":  {
+                                                                                                          "schema":  {
+                                                                                                                         "$ref":  "#/components/schemas/CreateClientRequest"
+                                                                                                                     }
+                                                                                                      },
+                                                                                        "application/*+json":  {
+                                                                                                                   "schema":  {
+                                                                                                                                  "$ref":  "#/components/schemas/CreateClientRequest"
+                                                                                                                              }
+                                                                                                               }
+                                                                                    }
+                                                                    },
+                                                    "responses":  {
+                                                                      "200":  {
+                                                                                  "description":  "OK"
+                                                                              }
+                                                                  }
+                                                }
+                                   },
+                  "/api/clients/{id}":  {
+                                            "get":  {
+                                                        "tags":  [
+                                                                     "Clients"
+                                                                 ],
+                                                        "parameters":  [
+                                                                           {
+                                                                               "name":  "id",
+                                                                               "in":  "path",
+                                                                               "required":  true,
+                                                                               "schema":  {
+                                                                                              "type":  "string",
+                                                                                              "format":  "uuid"
+                                                                                          }
+                                                                           }
+                                                                       ],
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    },
+                                            "put":  {
+                                                        "tags":  [
+                                                                     "Clients"
+                                                                 ],
+                                                        "parameters":  [
+                                                                           {
+                                                                               "name":  "id",
+                                                                               "in":  "path",
+                                                                               "required":  true,
+                                                                               "schema":  {
+                                                                                              "type":  "string",
+                                                                                              "format":  "uuid"
+                                                                                          }
+                                                                           }
+                                                                       ],
+                                                        "requestBody":  {
+                                                                            "content":  {
+                                                                                            "application/json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "$ref":  "#/components/schemas/UpdateClientRequest"
+                                                                                                                                }
+                                                                                                                 },
+                                                                                            "text/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/UpdateClientRequest"
+                                                                                                                         }
+                                                                                                          },
+                                                                                            "application/*+json":  {
+                                                                                                                       "schema":  {
+                                                                                                                                      "$ref":  "#/components/schemas/UpdateClientRequest"
+                                                                                                                                  }
+                                                                                                                   }
+                                                                                        }
+                                                                        },
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    },
+                                            "delete":  {
+                                                           "tags":  [
+                                                                        "Clients"
+                                                                    ],
+                                                           "parameters":  [
+                                                                              {
+                                                                                  "name":  "id",
+                                                                                  "in":  "path",
+                                                                                  "required":  true,
+                                                                                  "schema":  {
+                                                                                                 "type":  "string",
+                                                                                                 "format":  "uuid"
+                                                                                             }
+                                                                              }
+                                                                          ],
+                                                           "responses":  {
+                                                                             "200":  {
+                                                                                         "description":  "OK"
+                                                                                     }
+                                                                         }
+                                                       }
+                                        },
+                  "/api/companies":  {
+                                         "post":  {
+                                                      "tags":  [
+                                                                   "Companies"
+                                                               ],
+                                                      "requestBody":  {
+                                                                          "content":  {
+                                                                                          "application/json":  {
+                                                                                                                   "schema":  {
+                                                                                                                                  "$ref":  "#/components/schemas/CreateCompanyRequest"
+                                                                                                                              }
+                                                                                                               },
+                                                                                          "text/json":  {
+                                                                                                            "schema":  {
+                                                                                                                           "$ref":  "#/components/schemas/CreateCompanyRequest"
+                                                                                                                       }
+                                                                                                        },
+                                                                                          "application/*+json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "$ref":  "#/components/schemas/CreateCompanyRequest"
+                                                                                                                                }
+                                                                                                                 }
+                                                                                      }
+                                                                      },
+                                                      "responses":  {
+                                                                        "200":  {
+                                                                                    "description":  "OK"
+                                                                                }
+                                                                    }
+                                                  },
+                                         "get":  {
+                                                     "tags":  [
+                                                                  "Companies"
+                                                              ],
+                                                     "parameters":  [
+                                                                        {
+                                                                            "name":  "page",
+                                                                            "in":  "query",
+                                                                            "schema":  {
+                                                                                           "type":  "integer",
+                                                                                           "format":  "int32",
+                                                                                           "default":  1
+                                                                                       }
+                                                                        },
+                                                                        {
+                                                                            "name":  "pageSize",
+                                                                            "in":  "query",
+                                                                            "schema":  {
+                                                                                           "type":  "integer",
+                                                                                           "format":  "int32",
+                                                                                           "default":  10
+                                                                                       }
+                                                                        }
+                                                                    ],
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "OK"
+                                                                               }
+                                                                   }
+                                                 }
+                                     },
+                  "/api/companies/{id}":  {
+                                              "get":  {
+                                                          "tags":  [
+                                                                       "Companies"
+                                                                   ],
+                                                          "parameters":  [
+                                                                             {
+                                                                                 "name":  "id",
+                                                                                 "in":  "path",
+                                                                                 "required":  true,
+                                                                                 "schema":  {
+                                                                                                "type":  "string",
+                                                                                                "format":  "uuid"
+                                                                                            }
+                                                                             }
+                                                                         ],
+                                                          "responses":  {
+                                                                            "200":  {
+                                                                                        "description":  "OK"
+                                                                                    }
+                                                                        }
+                                                      }
+                                          },
+                  "/api/messages/dialogs":  {
+                                                "get":  {
+                                                            "tags":  [
+                                                                         "Messages"
+                                                                     ],
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                            },
+                  "/api/messages/{dialogId}":  {
+                                                   "get":  {
+                                                               "tags":  [
+                                                                            "Messages"
+                                                                        ],
+                                                               "parameters":  [
+                                                                                  {
+                                                                                      "name":  "dialogId",
+                                                                                      "in":  "path",
+                                                                                      "required":  true,
+                                                                                      "schema":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 }
+                                                                                  }
+                                                                              ],
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "OK"
+                                                                                         }
+                                                                             }
+                                                           }
+                                               },
+                  "/api/messages":  {
+                                        "post":  {
+                                                     "tags":  [
+                                                                  "Messages"
+                                                              ],
+                                                     "requestBody":  {
+                                                                         "content":  {
+                                                                                         "application/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/SendMessageRequest"
+                                                                                                                             }
+                                                                                                              },
+                                                                                         "text/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/SendMessageRequest"
+                                                                                                                      }
+                                                                                                       },
+                                                                                         "application/*+json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/SendMessageRequest"
+                                                                                                                               }
+                                                                                                                }
+                                                                                     }
+                                                                     },
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "OK"
+                                                                               }
+                                                                   }
+                                                 }
+                                    },
+                  "/api/orders":  {
+                                      "post":  {
+                                                   "tags":  [
+                                                                "Orders"
+                                                            ],
+                                                   "requestBody":  {
+                                                                       "content":  {
+                                                                                       "application/json":  {
+                                                                                                                "schema":  {
+                                                                                                                               "$ref":  "#/components/schemas/CreateOrderRequest"
+                                                                                                                           }
+                                                                                                            },
+                                                                                       "text/json":  {
+                                                                                                         "schema":  {
+                                                                                                                        "$ref":  "#/components/schemas/CreateOrderRequest"
+                                                                                                                    }
+                                                                                                     },
+                                                                                       "application/*+json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/CreateOrderRequest"
+                                                                                                                             }
+                                                                                                              }
+                                                                                   }
+                                                                   },
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               },
+                                      "get":  {
+                                                  "tags":  [
+                                                               "Orders"
+                                                           ],
+                                                  "responses":  {
+                                                                    "200":  {
+                                                                                "description":  "OK"
+                                                                            }
+                                                                }
+                                              }
+                                  },
+                  "/api/orders/{id}":  {
+                                           "put":  {
+                                                       "tags":  [
+                                                                    "Orders"
+                                                                ],
+                                                       "parameters":  [
+                                                                          {
+                                                                              "name":  "id",
+                                                                              "in":  "path",
+                                                                              "required":  true,
+                                                                              "schema":  {
+                                                                                             "type":  "string",
+                                                                                             "format":  "uuid"
+                                                                                         }
+                                                                          }
+                                                                      ],
+                                                       "requestBody":  {
+                                                                           "content":  {
+                                                                                           "application/json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/UpdateOrderRequest"
+                                                                                                                               }
+                                                                                                                },
+                                                                                           "text/json":  {
+                                                                                                             "schema":  {
+                                                                                                                            "$ref":  "#/components/schemas/UpdateOrderRequest"
+                                                                                                                        }
+                                                                                                         },
+                                                                                           "application/*+json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/UpdateOrderRequest"
+                                                                                                                                 }
+                                                                                                                  }
+                                                                                       }
+                                                                       },
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "OK"
+                                                                                 }
+                                                                     }
+                                                   },
+                                           "delete":  {
+                                                          "tags":  [
+                                                                       "Orders"
+                                                                   ],
+                                                          "parameters":  [
+                                                                             {
+                                                                                 "name":  "id",
+                                                                                 "in":  "path",
+                                                                                 "required":  true,
+                                                                                 "schema":  {
+                                                                                                "type":  "string",
+                                                                                                "format":  "uuid"
+                                                                                            }
+                                                                             }
+                                                                         ],
+                                                          "responses":  {
+                                                                            "200":  {
+                                                                                        "description":  "OK"
+                                                                                    }
+                                                                        }
+                                                      }
+                                       },
+                  "/api/orders/{id}/status":  {
+                                                  "patch":  {
+                                                                "tags":  [
+                                                                             "Orders"
+                                                                         ],
+                                                                "parameters":  [
+                                                                                   {
+                                                                                       "name":  "id",
+                                                                                       "in":  "path",
+                                                                                       "required":  true,
+                                                                                       "schema":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  }
+                                                                                   }
+                                                                               ],
+                                                                "requestBody":  {
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/UpdateOrderStatusRequest"
+                                                                                                                                        }
+                                                                                                                         },
+                                                                                                    "text/json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/UpdateOrderStatusRequest"
+                                                                                                                                 }
+                                                                                                                  },
+                                                                                                    "application/*+json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/UpdateOrderStatusRequest"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                }
+                                                                                },
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "OK"
+                                                                                          }
+                                                                              }
+                                                            }
+                                              },
+                  "/api/orders/{id}/assign":  {
+                                                  "patch":  {
+                                                                "tags":  [
+                                                                             "Orders"
+                                                                         ],
+                                                                "parameters":  [
+                                                                                   {
+                                                                                       "name":  "id",
+                                                                                       "in":  "path",
+                                                                                       "required":  true,
+                                                                                       "schema":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  }
+                                                                                   }
+                                                                               ],
+                                                                "requestBody":  {
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/AssignManagerRequest"
+                                                                                                                                        }
+                                                                                                                         },
+                                                                                                    "text/json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/AssignManagerRequest"
+                                                                                                                                 }
+                                                                                                                  },
+                                                                                                    "application/*+json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/AssignManagerRequest"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                }
+                                                                                },
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "OK"
+                                                                                          }
+                                                                              }
+                                                            }
+                                              },
+                  "/api/orders/{id}/items":  {
+                                                 "patch":  {
+                                                               "tags":  [
+                                                                            "Orders"
+                                                                        ],
+                                                               "parameters":  [
+                                                                                  {
+                                                                                      "name":  "id",
+                                                                                      "in":  "path",
+                                                                                      "required":  true,
+                                                                                      "schema":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 }
+                                                                                  }
+                                                                              ],
+                                                               "requestBody":  {
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "type":  "array",
+                                                                                                                                           "items":  {
+                                                                                                                                                         "$ref":  "#/components/schemas/OrderItemRequest"
+                                                                                                                                                     }
+                                                                                                                                       }
+                                                                                                                        },
+                                                                                                   "text/json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "type":  "array",
+                                                                                                                                    "items":  {
+                                                                                                                                                  "$ref":  "#/components/schemas/OrderItemRequest"
+                                                                                                                                              }
+                                                                                                                                }
+                                                                                                                 },
+                                                                                                   "application/*+json":  {
+                                                                                                                              "schema":  {
+                                                                                                                                             "type":  "array",
+                                                                                                                                             "items":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/OrderItemRequest"
+                                                                                                                                                       }
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                               }
+                                                                               },
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "OK"
+                                                                                         }
+                                                                             }
+                                                           }
+                                             },
+                  "/api/product":  {
+                                       "post":  {
+                                                    "tags":  [
+                                                                 "Products"
+                                                             ],
+                                                    "requestBody":  {
+                                                                        "content":  {
+                                                                                        "application/json":  {
+                                                                                                                 "schema":  {
+                                                                                                                                "$ref":  "#/components/schemas/CreateProductRequest"
+                                                                                                                            }
+                                                                                                             },
+                                                                                        "text/json":  {
+                                                                                                          "schema":  {
+                                                                                                                         "$ref":  "#/components/schemas/CreateProductRequest"
+                                                                                                                     }
+                                                                                                      },
+                                                                                        "application/*+json":  {
+                                                                                                                   "schema":  {
+                                                                                                                                  "$ref":  "#/components/schemas/CreateProductRequest"
+                                                                                                                              }
+                                                                                                               }
+                                                                                    }
+                                                                    },
+                                                    "responses":  {
+                                                                      "200":  {
+                                                                                  "description":  "OK"
+                                                                              }
+                                                                  }
+                                                },
+                                       "get":  {
+                                                   "tags":  [
+                                                                "Products"
+                                                            ],
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               }
+                                   },
+                  "/api/product/{id}":  {
+                                            "get":  {
+                                                        "tags":  [
+                                                                     "Products"
+                                                                 ],
+                                                        "parameters":  [
+                                                                           {
+                                                                               "name":  "id",
+                                                                               "in":  "path",
+                                                                               "required":  true,
+                                                                               "schema":  {
+                                                                                              "type":  "string",
+                                                                                              "format":  "uuid"
+                                                                                          }
+                                                                           }
+                                                                       ],
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    },
+                                            "put":  {
+                                                        "tags":  [
+                                                                     "Products"
+                                                                 ],
+                                                        "parameters":  [
+                                                                           {
+                                                                               "name":  "id",
+                                                                               "in":  "path",
+                                                                               "required":  true,
+                                                                               "schema":  {
+                                                                                              "type":  "string",
+                                                                                              "format":  "uuid"
+                                                                                          }
+                                                                           }
+                                                                       ],
+                                                        "requestBody":  {
+                                                                            "content":  {
+                                                                                            "application/json":  {
+                                                                                                                     "schema":  {
+                                                                                                                                    "$ref":  "#/components/schemas/UpdateProductRequest"
+                                                                                                                                }
+                                                                                                                 },
+                                                                                            "text/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/UpdateProductRequest"
+                                                                                                                         }
+                                                                                                          },
+                                                                                            "application/*+json":  {
+                                                                                                                       "schema":  {
+                                                                                                                                      "$ref":  "#/components/schemas/UpdateProductRequest"
+                                                                                                                                  }
+                                                                                                                   }
+                                                                                        }
+                                                                        },
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    },
+                                            "delete":  {
+                                                           "tags":  [
+                                                                        "Products"
+                                                                    ],
+                                                           "parameters":  [
+                                                                              {
+                                                                                  "name":  "id",
+                                                                                  "in":  "path",
+                                                                                  "required":  true,
+                                                                                  "schema":  {
+                                                                                                 "type":  "string",
+                                                                                                 "format":  "uuid"
+                                                                                             }
+                                                                              }
+                                                                          ],
+                                                           "responses":  {
+                                                                             "200":  {
+                                                                                         "description":  "OK"
+                                                                                     }
+                                                                         }
+                                                       }
+                                        },
+                  "/api/role":  {
+                                    "post":  {
+                                                 "tags":  [
+                                                              "Roles"
+                                                          ],
+                                                 "requestBody":  {
+                                                                     "content":  {
+                                                                                     "application/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/CreateRoleRequest"
+                                                                                                                         }
+                                                                                                          },
+                                                                                     "text/json":  {
+                                                                                                       "schema":  {
+                                                                                                                      "$ref":  "#/components/schemas/CreateRoleRequest"
+                                                                                                                  }
+                                                                                                   },
+                                                                                     "application/*+json":  {
+                                                                                                                "schema":  {
+                                                                                                                               "$ref":  "#/components/schemas/CreateRoleRequest"
+                                                                                                                           }
+                                                                                                            }
+                                                                                 }
+                                                                 },
+                                                 "responses":  {
+                                                                   "200":  {
+                                                                               "description":  "OK"
+                                                                           }
+                                                               }
+                                             },
+                                    "get":  {
+                                                "tags":  [
+                                                             "Roles"
+                                                         ],
+                                                "responses":  {
+                                                                  "200":  {
+                                                                              "description":  "OK"
+                                                                          }
+                                                              }
+                                            }
+                                },
+                  "/api/role/permissions":  {
+                                                "put":  {
+                                                            "tags":  [
+                                                                         "Roles"
+                                                                     ],
+                                                            "requestBody":  {
+                                                                                "content":  {
+                                                                                                "application/json":  {
+                                                                                                                         "schema":  {
+                                                                                                                                        "$ref":  "#/components/schemas/UpdateRolePermissionsRequest"
+                                                                                                                                    }
+                                                                                                                     },
+                                                                                                "text/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/UpdateRolePermissionsRequest"
+                                                                                                                             }
+                                                                                                              },
+                                                                                                "application/*+json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "$ref":  "#/components/schemas/UpdateRolePermissionsRequest"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                            }
+                                                                            },
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                            },
+                  "/api/role/all-permissions":  {
+                                                    "get":  {
+                                                                "tags":  [
+                                                                             "Roles"
+                                                                         ],
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "OK"
+                                                                                          }
+                                                                              }
+                                                            }
+                                                },
+                  "/api/statistics/sales":  {
+                                                "get":  {
+                                                            "tags":  [
+                                                                         "Statistics"
+                                                                     ],
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                            },
+                  "/api/statistics/channels":  {
+                                                   "get":  {
+                                                               "tags":  [
+                                                                            "Statistics"
+                                                                        ],
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "OK"
+                                                                                         }
+                                                                             }
+                                                           }
+                                               },
+                  "/api/statistics/categories":  {
+                                                     "get":  {
+                                                                 "tags":  [
+                                                                              "Statistics"
+                                                                          ],
+                                                                 "responses":  {
+                                                                                   "200":  {
+                                                                                               "description":  "OK"
+                                                                                           }
+                                                                               }
+                                                             }
+                                                 },
+                  "/api/statuses":  {
+                                        "post":  {
+                                                     "tags":  [
+                                                                  "Statuses"
+                                                              ],
+                                                     "requestBody":  {
+                                                                         "content":  {
+                                                                                         "application/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/CreateStatusRequest"
+                                                                                                                             }
+                                                                                                              },
+                                                                                         "text/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/CreateStatusRequest"
+                                                                                                                      }
+                                                                                                       },
+                                                                                         "application/*+json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/CreateStatusRequest"
+                                                                                                                               }
+                                                                                                                }
+                                                                                     }
+                                                                     },
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "OK"
+                                                                               }
+                                                                   }
+                                                 },
+                                        "get":  {
+                                                    "tags":  [
+                                                                 "Statuses"
+                                                             ],
+                                                    "responses":  {
+                                                                      "200":  {
+                                                                                  "description":  "OK"
+                                                                              }
+                                                                  }
+                                                }
+                                    },
+                  "/api/statuses/{id}":  {
+                                             "put":  {
+                                                         "tags":  [
+                                                                      "Statuses"
+                                                                  ],
+                                                         "parameters":  [
+                                                                            {
+                                                                                "name":  "id",
+                                                                                "in":  "path",
+                                                                                "required":  true,
+                                                                                "schema":  {
+                                                                                               "type":  "string",
+                                                                                               "format":  "uuid"
+                                                                                           }
+                                                                            }
+                                                                        ],
+                                                         "requestBody":  {
+                                                                             "content":  {
+                                                                                             "application/json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "$ref":  "#/components/schemas/UpdateStatusRequest"
+                                                                                                                                 }
+                                                                                                                  },
+                                                                                             "text/json":  {
+                                                                                                               "schema":  {
+                                                                                                                              "$ref":  "#/components/schemas/UpdateStatusRequest"
+                                                                                                                          }
+                                                                                                           },
+                                                                                             "application/*+json":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "$ref":  "#/components/schemas/UpdateStatusRequest"
+                                                                                                                                   }
+                                                                                                                    }
+                                                                                         }
+                                                                         },
+                                                         "responses":  {
+                                                                           "200":  {
+                                                                                       "description":  "OK"
+                                                                                   }
+                                                                       }
+                                                     },
+                                             "delete":  {
+                                                            "tags":  [
+                                                                         "Statuses"
+                                                                     ],
+                                                            "parameters":  [
+                                                                               {
+                                                                                   "name":  "id",
+                                                                                   "in":  "path",
+                                                                                   "required":  true,
+                                                                                   "schema":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "uuid"
+                                                                                              }
+                                                                               }
+                                                                           ],
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                         },
+                  "/api/system-admin/register":  {
+                                                     "post":  {
+                                                                  "tags":  [
+                                                                               "SystemAdmin"
+                                                                           ],
+                                                                  "requestBody":  {
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/CreateSystemAdminRequest"
+                                                                                                                                          }
+                                                                                                                           },
+                                                                                                      "text/json":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "$ref":  "#/components/schemas/CreateSystemAdminRequest"
+                                                                                                                                   }
+                                                                                                                    },
+                                                                                                      "application/*+json":  {
+                                                                                                                                 "schema":  {
+                                                                                                                                                "$ref":  "#/components/schemas/CreateSystemAdminRequest"
+                                                                                                                                            }
+                                                                                                                             }
+                                                                                                  }
+                                                                                  },
+                                                                  "responses":  {
+                                                                                    "200":  {
+                                                                                                "description":  "OK"
+                                                                                            }
+                                                                                }
+                                                              }
+                                                 },
+                  "/api/system-admin/companies/status":  {
+                                                             "patch":  {
+                                                                           "tags":  [
+                                                                                        "SystemAdmin"
+                                                                                    ],
+                                                                           "requestBody":  {
+                                                                                               "content":  {
+                                                                                                               "application/json":  {
+                                                                                                                                        "schema":  {
+                                                                                                                                                       "$ref":  "#/components/schemas/ToggleCompanyStatusRequest"
+                                                                                                                                                   }
+                                                                                                                                    },
+                                                                                                               "text/json":  {
+                                                                                                                                 "schema":  {
+                                                                                                                                                "$ref":  "#/components/schemas/ToggleCompanyStatusRequest"
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                               "application/*+json":  {
+                                                                                                                                          "schema":  {
+                                                                                                                                                         "$ref":  "#/components/schemas/ToggleCompanyStatusRequest"
+                                                                                                                                                     }
+                                                                                                                                      }
+                                                                                                           }
+                                                                                           },
+                                                                           "responses":  {
+                                                                                             "200":  {
+                                                                                                         "description":  "OK"
+                                                                                                     }
+                                                                                         }
+                                                                       }
+                                                         },
+                  "/api/system-admin/exists":  {
+                                                   "get":  {
+                                                               "tags":  [
+                                                                            "SystemAdmin"
+                                                                        ],
+                                                               "parameters":  [
+                                                                                  {
+                                                                                      "name":  "email",
+                                                                                      "in":  "query",
+                                                                                      "schema":  {
+                                                                                                     "type":  "string"
+                                                                                                 }
+                                                                                  }
+                                                                              ],
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "OK"
+                                                                                         }
+                                                                             }
+                                                           }
+                                               },
+                  "/api/system-admin":  {
+                                            "get":  {
+                                                        "tags":  [
+                                                                     "SystemAdmin"
+                                                                 ],
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    }
+                                        },
+                  "/api/user":  {
+                                    "post":  {
+                                                 "tags":  [
+                                                              "Users"
+                                                          ],
+                                                 "requestBody":  {
+                                                                     "content":  {
+                                                                                     "application/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/CreateUserRequest"
+                                                                                                                         }
+                                                                                                          },
+                                                                                     "text/json":  {
+                                                                                                       "schema":  {
+                                                                                                                      "$ref":  "#/components/schemas/CreateUserRequest"
+                                                                                                                  }
+                                                                                                   },
+                                                                                     "application/*+json":  {
+                                                                                                                "schema":  {
+                                                                                                                               "$ref":  "#/components/schemas/CreateUserRequest"
+                                                                                                                           }
+                                                                                                            }
+                                                                                 }
+                                                                 },
+                                                 "responses":  {
+                                                                   "200":  {
+                                                                               "description":  "OK"
+                                                                           }
+                                                               }
+                                             },
+                                    "get":  {
+                                                "tags":  [
+                                                             "Users"
+                                                         ],
+                                                "responses":  {
+                                                                  "200":  {
+                                                                              "description":  "OK"
+                                                                          }
+                                                              }
+                                            }
+                                },
+                  "/api/user/{id}":  {
+                                         "put":  {
+                                                     "tags":  [
+                                                                  "Users"
+                                                              ],
+                                                     "parameters":  [
+                                                                        {
+                                                                            "name":  "id",
+                                                                            "in":  "path",
+                                                                            "required":  true,
+                                                                            "schema":  {
+                                                                                           "type":  "string",
+                                                                                           "format":  "uuid"
+                                                                                       }
+                                                                        }
+                                                                    ],
+                                                     "requestBody":  {
+                                                                         "content":  {
+                                                                                         "application/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                             }
+                                                                                                              },
+                                                                                         "text/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                      }
+                                                                                                       },
+                                                                                         "application/*+json":  {
+                                                                                                                    "schema":  {
+                                                                                                                                   "$ref":  "#/components/schemas/UpdateUserRequest"
+                                                                                                                               }
+                                                                                                                }
+                                                                                     }
+                                                                     },
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "OK"
+                                                                               }
+                                                                   }
+                                                 },
+                                         "delete":  {
+                                                        "tags":  [
+                                                                     "Users"
+                                                                 ],
+                                                        "parameters":  [
+                                                                           {
+                                                                               "name":  "id",
+                                                                               "in":  "path",
+                                                                               "required":  true,
+                                                                               "schema":  {
+                                                                                              "type":  "string",
+                                                                                              "format":  "uuid"
+                                                                                          }
+                                                                           }
+                                                                       ],
+                                                        "responses":  {
+                                                                          "200":  {
+                                                                                      "description":  "OK"
+                                                                                  }
+                                                                      }
+                                                    }
+                                     },
+                  "/api/user/{id}/role":  {
+                                              "patch":  {
+                                                            "tags":  [
+                                                                         "Users"
+                                                                     ],
+                                                            "parameters":  [
+                                                                               {
+                                                                                   "name":  "id",
+                                                                                   "in":  "path",
+                                                                                   "required":  true,
+                                                                                   "schema":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "uuid"
+                                                                                              }
+                                                                               }
+                                                                           ],
+                                                            "requestBody":  {
+                                                                                "content":  {
+                                                                                                "application/json":  {
+                                                                                                                         "schema":  {
+                                                                                                                                        "type":  "string",
+                                                                                                                                        "format":  "uuid"
+                                                                                                                                    }
+                                                                                                                     },
+                                                                                                "text/json":  {
+                                                                                                                  "schema":  {
+                                                                                                                                 "type":  "string",
+                                                                                                                                 "format":  "uuid"
+                                                                                                                             }
+                                                                                                              },
+                                                                                                "application/*+json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "type":  "string",
+                                                                                                                                          "format":  "uuid"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                            }
+                                                                            },
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "OK"
+                                                                                      }
+                                                                          }
+                                                        }
+                                          }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "AssignManagerRequest":  {
+                                                                    "required":  [
+                                                                                     "managerId"
+                                                                                 ],
+                                                                    "type":  "object",
+                                                                    "properties":  {
+                                                                                       "managerId":  {
+                                                                                                         "type":  "string",
+                                                                                                         "format":  "uuid"
+                                                                                                     }
+                                                                                   },
+                                                                    "additionalProperties":  false
+                                                                },
+                                       "CreateCategoryRequest":  {
+                                                                     "required":  [
+                                                                                      "name"
+                                                                                  ],
+                                                                     "type":  "object",
+                                                                     "properties":  {
+                                                                                        "name":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 }
+                                                                                    },
+                                                                     "additionalProperties":  false
+                                                                 },
+                                       "CreateClientRequest":  {
+                                                                   "required":  [
+                                                                                    "firstName"
+                                                                                ],
+                                                                   "type":  "object",
+                                                                   "properties":  {
+                                                                                      "firstName":  {
+                                                                                                        "type":  "string",
+                                                                                                        "nullable":  true
+                                                                                                    },
+                                                                                      "surname":  {
+                                                                                                      "type":  "string",
+                                                                                                      "nullable":  true
+                                                                                                  },
+                                                                                      "patronymic":  {
+                                                                                                         "type":  "string",
+                                                                                                         "nullable":  true
+                                                                                                     },
+                                                                                      "phone":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                      "email":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                      "address":  {
+                                                                                                      "type":  "string",
+                                                                                                      "nullable":  true
+                                                                                                  }
+                                                                                  },
+                                                                   "additionalProperties":  false
+                                                               },
+                                       "CreateCompanyRequest":  {
+                                                                    "required":  [
+                                                                                     "companyName",
+                                                                                     "ownerEmail",
+                                                                                     "ownerFullName"
+                                                                                 ],
+                                                                    "type":  "object",
+                                                                    "properties":  {
+                                                                                       "companyName":  {
+                                                                                                           "type":  "string",
+                                                                                                           "nullable":  true
+                                                                                                       },
+                                                                                       "ownerFullName":  {
+                                                                                                             "type":  "string",
+                                                                                                             "nullable":  true
+                                                                                                         },
+                                                                                       "ownerEmail":  {
+                                                                                                          "type":  "string",
+                                                                                                          "nullable":  true
+                                                                                                      }
+                                                                                   },
+                                                                    "additionalProperties":  false
+                                                                },
+                                       "CreateOrderRequest":  {
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "clientId":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid",
+                                                                                                      "nullable":  true
+                                                                                                  },
+                                                                                     "client":  {
+                                                                                                    "$ref":  "#/components/schemas/CreateClientRequest"
+                                                                                                },
+                                                                                     "deliveryAddress":  {
+                                                                                                             "type":  "string",
+                                                                                                             "nullable":  true
+                                                                                                         },
+                                                                                     "notes":  {
+                                                                                                   "type":  "string",
+                                                                                                   "nullable":  true
+                                                                                               },
+                                                                                     "salesChannel":  {
+                                                                                                          "type":  "string",
+                                                                                                          "nullable":  true
+                                                                                                      },
+                                                                                     "items":  {
+                                                                                                   "type":  "array",
+                                                                                                   "items":  {
+                                                                                                                 "$ref":  "#/components/schemas/OrderItemRequest"
+                                                                                                             },
+                                                                                                   "nullable":  true
+                                                                                               }
+                                                                                 },
+                                                                  "additionalProperties":  false
+                                                              },
+                                       "CreateProductRequest":  {
+                                                                    "required":  [
+                                                                                     "name",
+                                                                                     "price"
+                                                                                 ],
+                                                                    "type":  "object",
+                                                                    "properties":  {
+                                                                                       "name":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                       "price":  {
+                                                                                                     "type":  "number",
+                                                                                                     "format":  "double"
+                                                                                                 },
+                                                                                       "categoryId":  {
+                                                                                                          "type":  "string",
+                                                                                                          "format":  "uuid",
+                                                                                                          "nullable":  true
+                                                                                                      }
+                                                                                   },
+                                                                    "additionalProperties":  false
+                                                                },
+                                       "CreateRoleRequest":  {
+                                                                 "required":  [
+                                                                                  "accessLevel",
+                                                                                  "name",
+                                                                                  "permissions"
+                                                                              ],
+                                                                 "type":  "object",
+                                                                 "properties":  {
+                                                                                    "name":  {
+                                                                                                 "type":  "string",
+                                                                                                 "nullable":  true
+                                                                                             },
+                                                                                    "accessLevel":  {
+                                                                                                        "type":  "integer",
+                                                                                                        "format":  "int32"
+                                                                                                    },
+                                                                                    "permissions":  {
+                                                                                                        "type":  "array",
+                                                                                                        "items":  {
+                                                                                                                      "$ref":  "#/components/schemas/Permission"
+                                                                                                                  },
+                                                                                                        "nullable":  true
+                                                                                                    }
+                                                                                },
+                                                                 "additionalProperties":  false
+                                                             },
+                                       "CreateStatusRequest":  {
+                                                                   "required":  [
+                                                                                    "name"
+                                                                                ],
+                                                                   "type":  "object",
+                                                                   "properties":  {
+                                                                                      "name":  {
+                                                                                                   "type":  "string",
+                                                                                                   "nullable":  true
+                                                                                               }
+                                                                                  },
+                                                                   "additionalProperties":  false
+                                                               },
+                                       "CreateSystemAdminRequest":  {
+                                                                        "required":  [
+                                                                                         "email",
+                                                                                         "isRoot",
+                                                                                         "login",
+                                                                                         "password"
+                                                                                     ],
+                                                                        "type":  "object",
+                                                                        "properties":  {
+                                                                                           "email":  {
+                                                                                                         "type":  "string",
+                                                                                                         "nullable":  true
+                                                                                                     },
+                                                                                           "login":  {
+                                                                                                         "type":  "string",
+                                                                                                         "nullable":  true
+                                                                                                     },
+                                                                                           "password":  {
+                                                                                                            "type":  "string",
+                                                                                                            "nullable":  true
+                                                                                                        },
+                                                                                           "isRoot":  {
+                                                                                                          "type":  "boolean"
+                                                                                                      }
+                                                                                       },
+                                                                        "additionalProperties":  false
+                                                                    },
+                                       "CreateUserRequest":  {
+                                                                 "required":  [
+                                                                                  "email",
+                                                                                  "fullName",
+                                                                                  "password",
+                                                                                  "roleId"
+                                                                              ],
+                                                                 "type":  "object",
+                                                                 "properties":  {
+                                                                                    "email":  {
+                                                                                                  "type":  "string",
+                                                                                                  "nullable":  true
+                                                                                              },
+                                                                                    "password":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 },
+                                                                                    "fullName":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 },
+                                                                                    "phoneNumber":  {
+                                                                                                        "type":  "string",
+                                                                                                        "nullable":  true
+                                                                                                    },
+                                                                                    "roleId":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               }
+                                                                                },
+                                                                 "additionalProperties":  false
+                                                             },
+                                       "LoginRequest":  {
+                                                            "required":  [
+                                                                             "email",
+                                                                             "password"
+                                                                         ],
+                                                            "type":  "object",
+                                                            "properties":  {
+                                                                               "email":  {
+                                                                                             "type":  "string",
+                                                                                             "nullable":  true
+                                                                                         },
+                                                                               "password":  {
+                                                                                                "type":  "string",
+                                                                                                "nullable":  true
+                                                                                            }
+                                                                           },
+                                                            "additionalProperties":  false
+                                                        },
+                                       "OrderItemRequest":  {
+                                                                "required":  [
+                                                                                 "priceAtOrder",
+                                                                                 "productId",
+                                                                                 "quantity"
+                                                                             ],
+                                                                "type":  "object",
+                                                                "properties":  {
+                                                                                   "productId":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 },
+                                                                                   "quantity":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "format":  "int32"
+                                                                                                },
+                                                                                   "priceAtOrder":  {
+                                                                                                        "type":  "number",
+                                                                                                        "format":  "double"
+                                                                                                    }
+                                                                               },
+                                                                "additionalProperties":  false
+                                                            },
+                                       "Permission":  {
+                                                          "enum":  [
+                                                                       1,
+                                                                       2,
+                                                                       3,
+                                                                       10,
+                                                                       11,
+                                                                       12,
+                                                                       13,
+                                                                       14,
+                                                                       20,
+                                                                       21,
+                                                                       22,
+                                                                       26,
+                                                                       27,
+                                                                       30,
+                                                                       31,
+                                                                       40,
+                                                                       50
+                                                                   ],
+                                                          "type":  "integer",
+                                                          "format":  "int32"
+                                                      },
+                                       "SendMessageRequest":  {
+                                                                  "required":  [
+                                                                                   "receiverUserId",
+                                                                                   "text"
+                                                                               ],
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "dialogId":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid",
+                                                                                                      "nullable":  true
+                                                                                                  },
+                                                                                     "receiverUserId":  {
+                                                                                                            "type":  "string",
+                                                                                                            "format":  "uuid"
+                                                                                                        },
+                                                                                     "text":  {
+                                                                                                  "type":  "string",
+                                                                                                  "nullable":  true
+                                                                                              }
+                                                                                 },
+                                                                  "additionalProperties":  false
+                                                              },
+                                       "ToggleCompanyStatusRequest":  {
+                                                                          "required":  [
+                                                                                           "companyId",
+                                                                                           "isActive"
+                                                                                       ],
+                                                                          "type":  "object",
+                                                                          "properties":  {
+                                                                                             "companyId":  {
+                                                                                                               "type":  "string",
+                                                                                                               "format":  "uuid"
+                                                                                                           },
+                                                                                             "isActive":  {
+                                                                                                              "type":  "boolean"
+                                                                                                          }
+                                                                                         },
+                                                                          "additionalProperties":  false
+                                                                      },
+                                       "UpdateCategoryRequest":  {
+                                                                     "required":  [
+                                                                                      "name"
+                                                                                  ],
+                                                                     "type":  "object",
+                                                                     "properties":  {
+                                                                                        "name":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 }
+                                                                                    },
+                                                                     "additionalProperties":  false
+                                                                 },
+                                       "UpdateClientRequest":  {
+                                                                   "required":  [
+                                                                                    "firstName"
+                                                                                ],
+                                                                   "type":  "object",
+                                                                   "properties":  {
+                                                                                      "firstName":  {
+                                                                                                        "type":  "string",
+                                                                                                        "nullable":  true
+                                                                                                    },
+                                                                                      "surname":  {
+                                                                                                      "type":  "string",
+                                                                                                      "nullable":  true
+                                                                                                  },
+                                                                                      "patronymic":  {
+                                                                                                         "type":  "string",
+                                                                                                         "nullable":  true
+                                                                                                     },
+                                                                                      "phone":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                      "email":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                      "address":  {
+                                                                                                      "type":  "string",
+                                                                                                      "nullable":  true
+                                                                                                  }
+                                                                                  },
+                                                                   "additionalProperties":  false
+                                                               },
+                                       "UpdateOrderRequest":  {
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "clientId":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid",
+                                                                                                      "nullable":  true
+                                                                                                  },
+                                                                                     "client":  {
+                                                                                                    "$ref":  "#/components/schemas/CreateClientRequest"
+                                                                                                },
+                                                                                     "deliveryAddress":  {
+                                                                                                             "type":  "string",
+                                                                                                             "nullable":  true
+                                                                                                         },
+                                                                                     "notes":  {
+                                                                                                   "type":  "string",
+                                                                                                   "nullable":  true
+                                                                                               },
+                                                                                     "salesChannel":  {
+                                                                                                          "type":  "string",
+                                                                                                          "nullable":  true
+                                                                                                      }
+                                                                                 },
+                                                                  "additionalProperties":  false
+                                                              },
+                                       "UpdateOrderStatusRequest":  {
+                                                                        "required":  [
+                                                                                         "statusId"
+                                                                                     ],
+                                                                        "type":  "object",
+                                                                        "properties":  {
+                                                                                           "statusId":  {
+                                                                                                            "type":  "string",
+                                                                                                            "format":  "uuid"
+                                                                                                        }
+                                                                                       },
+                                                                        "additionalProperties":  false
+                                                                    },
+                                       "UpdateProductRequest":  {
+                                                                    "required":  [
+                                                                                     "id",
+                                                                                     "name",
+                                                                                     "price"
+                                                                                 ],
+                                                                    "type":  "object",
+                                                                    "properties":  {
+                                                                                       "id":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "uuid"
+                                                                                              },
+                                                                                       "name":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                                       "price":  {
+                                                                                                     "type":  "number",
+                                                                                                     "format":  "double"
+                                                                                                 },
+                                                                                       "categoryId":  {
+                                                                                                          "type":  "string",
+                                                                                                          "format":  "uuid",
+                                                                                                          "nullable":  true
+                                                                                                      }
+                                                                                   },
+                                                                    "additionalProperties":  false
+                                                                },
+                                       "UpdateRolePermissionsRequest":  {
+                                                                            "required":  [
+                                                                                             "permissions",
+                                                                                             "roleId"
+                                                                                         ],
+                                                                            "type":  "object",
+                                                                            "properties":  {
+                                                                                               "roleId":  {
+                                                                                                              "type":  "string",
+                                                                                                              "format":  "uuid"
+                                                                                                          },
+                                                                                               "permissions":  {
+                                                                                                                   "type":  "array",
+                                                                                                                   "items":  {
+                                                                                                                                 "$ref":  "#/components/schemas/Permission"
+                                                                                                                             },
+                                                                                                                   "nullable":  true
+                                                                                                               }
+                                                                                           },
+                                                                            "additionalProperties":  false
+                                                                        },
+                                       "UpdateStatusRequest":  {
+                                                                   "required":  [
+                                                                                    "name"
+                                                                                ],
+                                                                   "type":  "object",
+                                                                   "properties":  {
+                                                                                      "name":  {
+                                                                                                   "type":  "string",
+                                                                                                   "nullable":  true
+                                                                                               }
+                                                                                  },
+                                                                   "additionalProperties":  false
+                                                               },
+                                       "UpdateUserRequest":  {
+                                                                 "type":  "object",
+                                                                 "properties":  {
+                                                                                    "fullName":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 },
+                                                                                    "email":  {
+                                                                                                  "type":  "string",
+                                                                                                  "nullable":  true
+                                                                                              },
+                                                                                    "phoneNumber":  {
+                                                                                                        "type":  "string",
+                                                                                                        "nullable":  true
+                                                                                                    },
+                                                                                    "password":  {
+                                                                                                     "type":  "string",
+                                                                                                     "nullable":  true
+                                                                                                 }
+                                                                                },
+                                                                 "additionalProperties":  false
+                                                             }
+                                   },
+                       "securitySchemes":  {
+                                               "Bearer":  {
+                                                              "type":  "http",
+                                                              "description":  "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+                                                              "scheme":  "bearer",
+                                                              "bearerFormat":  "JWT"
+                                                          }
+                                           }
+                   },
+    "security":  [
+                     {
+                         "Bearer":  [
+
+                                    ]
+                     }
+                 ],
+    "tags":  [
+                 {
+                     "name":  "Api"
+                 },
+                 {
+                     "name":  "Auth"
+                 },
+                 {
+                     "name":  "Categories"
+                 },
+                 {
+                     "name":  "Clients"
+                 },
+                 {
+                     "name":  "Companies"
+                 },
+                 {
+                     "name":  "Messages"
+                 },
+                 {
+                     "name":  "Orders"
+                 },
+                 {
+                     "name":  "Products"
+                 },
+                 {
+                     "name":  "Roles"
+                 },
+                 {
+                     "name":  "Statistics"
+                 },
+                 {
+                     "name":  "Statuses"
+                 },
+                 {
+                     "name":  "SystemAdmin"
+                 },
+                 {
+                     "name":  "Users"
+                 }
+             ]
+}

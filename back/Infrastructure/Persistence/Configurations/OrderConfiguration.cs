@@ -17,6 +17,12 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.AssignedManagerId).HasColumnType("uuid");
         builder.Property(x => x.CompanyId).HasColumnType("uuid");
         builder.Property(x => x.CreatedBy).HasColumnType("uuid");
+        builder.Property(x => x.DeliveryAddress)
+            .HasMaxLength(500);
+        builder.Property(x => x.Notes)
+            .HasMaxLength(2000);
+        builder.Property(x => x.SalesChannel)
+            .HasMaxLength(100);
 
         builder.Property(x => x.CreatedAt)
             .IsRequired()

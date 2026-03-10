@@ -21,6 +21,11 @@ public class CategoriesController(ICategoryService categoryService) : Controller
     public async Task<IActionResult> GetAll(CancellationToken ct) =>
         (await categoryService.GetAllAsync(ct)).ToActionResult();
 
+    [HttpPut("{id:guid}")]
+    [HasPermission(Permission.ManageProducts)]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryRequest request, CancellationToken ct) =>
+        (await categoryService.UpdateAsync(id, request, ct)).ToActionResult();
+
     [HttpDelete("{id:guid}")]
     [HasPermission(Permission.ManageProducts)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken ct) =>
