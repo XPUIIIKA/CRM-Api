@@ -9,6 +9,8 @@ public sealed record class OrderResponse
     public string? Notes { get; init; }
     public string? SalesChannel { get; init; }
     public required Guid? CurrentStatusId { get; init; }
+    public string? CurrentStatusName { get; init; }
+    public Guid? AssignedManagerId { get; init; }
     public required decimal TotalAmount { get; init; }
     public required DateTime CreatedAt { get; init; }
     public List<OrderItemResponse> Items { get; init; } = new();

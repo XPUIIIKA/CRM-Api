@@ -108,6 +108,12 @@ public sealed class OrderService(
             .Distinct()
             .ToList();
 
+        var statusIds = orders
+            .Where(o => o.CurrentStatusId.HasValue)
+            .Select(o => o.CurrentStatusId!.Value)
+            .Distinct()
+            .ToList();
+
         var productNames = await context.Products
             .AsNoTracking()
             .Where(p => productIds.Contains(p.Id))
@@ -117,6 +123,13 @@ public sealed class OrderService(
             .AsNoTracking()
             .Where(c => clientIds.Contains(c.Id))
             .ToDictionaryAsync(c => c.Id, c => $"{c.FirstName} {c.Surname}".Trim(), ct);
+
+        var statusNames = statusIds.Count == 0
+            ? new Dictionary<Guid, string>()
+            : await context.Statuses
+                .AsNoTracking()
+                .Where(s => statusIds.Contains(s.Id))
+                .ToDictionaryAsync(s => s.Id, s => s.Name, ct);
 
         var response = orders
             .Select(o => new OrderResponse
@@ -130,6 +143,10 @@ public sealed class OrderService(
                 Notes = o.Notes,
                 SalesChannel = o.SalesChannel,
                 CurrentStatusId = o.CurrentStatusId,
+                CurrentStatusName = o.CurrentStatusId.HasValue && statusNames.TryGetValue(o.CurrentStatusId.Value, out var statusName)
+                    ? statusName
+                    : null,
+                AssignedManagerId = o.AssignedManagerId,
                 CreatedAt = o.CreatedAt,
                 TotalAmount = o.Items.Sum(i => i.Price * i.Quantity),
                 Items = o.Items.Select(i => new OrderItemResponse
@@ -237,6 +254,37 @@ public sealed class OrderService(
             }
         }
 
+        if (request.StatusId != Guid.Empty && request.StatusId != order.CurrentStatusId)
+        {
+            var statusExists = await context.Statuses
+                .AnyAsync(s => s.Id == request.StatusId && (s.CompanyId == companyId || s.CompanyId == Guid.Empty), ct);
+
+            if (!statusExists)
+            {
+                return Error.NotFound("Status.NotFound", "Status was not found.");
+            }
+
+            order.ChangeStatus(request.StatusId);
+            context.OrderStatusHistories.Add(new OrderStatusHistory(
+                orderId: order.Id,
+                statusId: request.StatusId,
+                createdBy: userId,
+                companyId: companyId));
+        }
+
+        if (request.ManagerId.HasValue && request.ManagerId != order.AssignedManagerId)
+        {
+            var managerExists = await context.Users
+                .AnyAsync(u => u.Id == request.ManagerId.Value && u.CompanyId == companyId && u.IsActive, ct);
+
+            if (!managerExists)
+            {
+                return Error.NotFound("User.NotFound", "Manager was not found.");
+            }
+
+            order.AssignManager(request.ManagerId.Value);
+        }
+
         order.UpdateMainInfo(
             request.DeliveryAddress ?? order.DeliveryAddress,
             request.Notes ?? order.Notes,
@@ -298,9 +346,10 @@ public sealed class OrderService(
         }
 
         var order = await context.Orders
-            .FirstOrDefaultAsync(o => o.Id == orderId, ct);
+            .AsTracking()
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.CompanyId == companyId, ct);
 
-        if (order is null || order.CompanyId != companyId)
+        if (order is null)
         {
             return Error.NotFound("Order.NotFound", "Order was not found.");
         }
@@ -328,9 +377,10 @@ public sealed class OrderService(
         var (_, companyId) = guardResult.Value;
 
         var order = await context.Orders
-            .FirstOrDefaultAsync(o => o.Id == orderId, ct);
+            .AsTracking()
+            .FirstOrDefaultAsync(o => o.Id == orderId && o.CompanyId == companyId, ct);
 
-        if (order is null || order.CompanyId != companyId)
+        if (order is null)
         {
             return Error.NotFound("Order.NotFound", "Order was not found.");
         }

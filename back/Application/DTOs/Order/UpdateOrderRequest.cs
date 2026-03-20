@@ -9,4 +9,6 @@ public sealed record class UpdateOrderRequest
     public string? DeliveryAddress { get; init; }
     public string? Notes { get; init; }
     public string? SalesChannel { get; init; }
+    public Guid StatusId { get; init; }
+    public Guid? ManagerId { get; init; }
 }
